@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35327.3
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fietsenwinkel", "Fietsenwinkel\Fietsenwinkel.csproj", "{FC0F8C4F-7997-4263-8EA9-A674988AE042}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fietsenwinkel.Domain", "Fietsenwinkel.Domain\Fietsenwinkel.Domain.csproj", "{43ACBD7A-54BB-4E69-9DDE-C897AF076AF3}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fietsenwinkel.UseCases", "Fietsenwinkel.UseCases\Fietsenwinkel.UseCases.csproj", "{5D77B9F5-89E4-4551-8772-359B07B462D2}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fietsenwinkel.Database", "Fietsenwinkel.Database\Fietsenwinkel.Database.csproj", "{9435CB8D-C398-4729-A810-567252110580}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fietsenwinkel.Api", "Fietsenwinkel.Api\Fietsenwinkel.Api.csproj", "{123AD762-EFA1-4C96-9AFB-10D320D57295}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fietsenwinkel.Shared", "Fietsenwinkel.Shared\Fietsenwinkel.Shared.csproj", "{FB2CE9C3-60E3-4819-8727-4E5A5612E16C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FC0F8C4F-7997-4263-8EA9-A674988AE042}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC0F8C4F-7997-4263-8EA9-A674988AE042}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC0F8C4F-7997-4263-8EA9-A674988AE042}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC0F8C4F-7997-4263-8EA9-A674988AE042}.Release|Any CPU.Build.0 = Release|Any CPU
+		{43ACBD7A-54BB-4E69-9DDE-C897AF076AF3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{43ACBD7A-54BB-4E69-9DDE-C897AF076AF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{43ACBD7A-54BB-4E69-9DDE-C897AF076AF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{43ACBD7A-54BB-4E69-9DDE-C897AF076AF3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5D77B9F5-89E4-4551-8772-359B07B462D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D77B9F5-89E4-4551-8772-359B07B462D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D77B9F5-89E4-4551-8772-359B07B462D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D77B9F5-89E4-4551-8772-359B07B462D2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9435CB8D-C398-4729-A810-567252110580}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9435CB8D-C398-4729-A810-567252110580}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9435CB8D-C398-4729-A810-567252110580}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9435CB8D-C398-4729-A810-567252110580}.Release|Any CPU.Build.0 = Release|Any CPU
+		{123AD762-EFA1-4C96-9AFB-10D320D57295}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{123AD762-EFA1-4C96-9AFB-10D320D57295}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{123AD762-EFA1-4C96-9AFB-10D320D57295}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{123AD762-EFA1-4C96-9AFB-10D320D57295}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FB2CE9C3-60E3-4819-8727-4E5A5612E16C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB2CE9C3-60E3-4819-8727-4E5A5612E16C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB2CE9C3-60E3-4819-8727-4E5A5612E16C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB2CE9C3-60E3-4819-8727-4E5A5612E16C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {73F86DF0-515B-418C-884C-BA51E56AC526}
+	EndGlobalSection
+EndGlobal
