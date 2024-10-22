@@ -472,3 +472,7 @@ src/RobNet.Supplier.Web/Views/Shared/DisplayTemplates/Badge.cshtml
 
 # Ignore generated LLBLGen backups
 RobNet.Data*.llblgenproj
+
+# Ignore local settings
+appsettings.Development.json
+launchSettings.json
