@@ -10,6 +10,21 @@ public abstract class Result<TValueType, TErrorType>
     public static Result<TValueType, TErrorType> Fail(TErrorType error) =>
         new FailureResult<TValueType, TErrorType>(error);
 
+    public void Switch(
+        Action<TValueType> onSuccess,
+        Action<TErrorType> onFailure)
+    {
+        switch (this)
+        {
+            case SuccessResult<TValueType, TErrorType> success:
+                onSuccess(success.Value);
+                break;
+            case FailureResult<TValueType, TErrorType> failure:
+                onFailure(failure.Error);
+                break;
+        }
+    }
+
     public TReturnType Switch<TReturnType>(
         Func<TValueType, TReturnType> onSuccess,
         Func<TErrorType, TReturnType> onFailure)

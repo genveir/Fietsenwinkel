@@ -1,8 +1,10 @@
-﻿using System;
+﻿using Fietsenwinkel.Domain.Errors;
+using Fietsenwinkel.Shared.Results;
+using System;
 using System.Text.RegularExpressions;
 
 namespace Fietsenwinkel.Domain.Fietsen.Entities;
-public class FietsType : IDomainType<string, FietsType>
+public partial class FietsType : IDomainValueType<string, FietsType>
 {
     public string Value { get; }
 
@@ -25,20 +27,40 @@ public class FietsType : IDomainType<string, FietsType>
         !string.IsNullOrWhiteSpace(value);
 
     private static bool MatchesTypePattern(string value) =>
-        new Regex(@"^[a-zA-Z0-9]+ [a-zA-Z0-9]+$").IsMatch(value);
+        TypePattern().IsMatch(value);
 
-    public static bool IsValidDomainTypeFor(string value) =>
-        HasContent(value) && MatchesTypePattern(value);
-
-    public static bool TryParse(string value, out FietsType? domainType)
+    private static ErrorResult<ErrorCodeSet> CheckValidity(string value)
     {
-        if (IsValidDomainTypeFor(value))
+        var errors = new ErrorCodeSet();
+
+        if (!HasContent(value))
         {
-            domainType = new FietsType(value);
-            return true;
+            errors.Add(ErrorCodes.Fietstype_Value_Not_Set);
         }
 
-        domainType = default;
-        return false;
+        if (!MatchesTypePattern(value))
+        {
+            errors.Add(ErrorCodes.Fietstype_Invalid_Format);
+        }
+
+        if (errors.Count != 0)
+        {
+            return ErrorResult<ErrorCodeSet>.Fail(errors);
+        }
+        return ErrorResult<ErrorCodeSet>.Succeed();
     }
+
+    public static bool IsValidDomainTypeFor(string value) =>
+        CheckValidity(value).Switch(
+            () => true,
+            _ => false);
+
+    public static Result<FietsType, ErrorCodeSet> Parse(string value) =>
+        CheckValidity(value)
+            .Switch(
+                () => Result<FietsType, ErrorCodeSet>.Succeed(new FietsType(value)),
+                Result<FietsType, ErrorCodeSet>.Fail);
+
+    [GeneratedRegex(@"^[a-zA-Z0-9]+ [a-zA-Z0-9]+$")]
+    protected static partial Regex TypePattern();
 }

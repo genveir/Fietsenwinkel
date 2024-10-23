@@ -5,4 +5,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Fietsenwinkel.Shared\Fietsenwinkel.Shared.csproj" />
+  </ItemGroup>
+
 </Project>
