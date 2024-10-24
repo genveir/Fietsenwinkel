@@ -7,7 +7,7 @@ public class FiliaalId : IDomainValueType<Guid, FiliaalId>
 {
     public Guid Value { get; }
 
-    public FiliaalId(Guid value)
+    private FiliaalId(Guid value)
     {
         if (!IsValidDomainTypeFor(value))
         {
@@ -37,5 +37,5 @@ public class FiliaalId : IDomainValueType<Guid, FiliaalId>
     public static Result<FiliaalId, ErrorCodeSet> Parse(string value) =>
         CheckValidity(value).Switch(
             guid => Result<FiliaalId, ErrorCodeSet>.Succeed(new FiliaalId(guid)),
-            errors => Result<FiliaalId, ErrorCodeSet>.Fail(errors));
+            Result<FiliaalId, ErrorCodeSet>.Fail);
 }

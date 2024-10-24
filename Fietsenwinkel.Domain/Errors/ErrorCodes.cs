@@ -5,6 +5,7 @@ public enum ErrorCodes
 
     // Bad Request >= 1000
     Fiets_Has_No_Wheels = 1000,
+    Fiets_Has_Too_Many_Wheels = 1002,
     Fietstype_Value_Not_Set = 1001,
 
     // Internal Server Error >= 10000

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Fietsenwinkel.Domain.Errors;
 public class ErrorCodeSet : IList<ErrorCodes>
@@ -10,6 +11,13 @@ public class ErrorCodeSet : IList<ErrorCodes>
     {
         get => ((IList<ErrorCodes>)Errors)[index];
         set => ((IList<ErrorCodes>)Errors)[index] = value;
+    }
+
+    public ErrorCodeSet() { }
+
+    public ErrorCodeSet(IEnumerable<ErrorCodes> errors)
+    {
+        Errors = errors.ToList();
     }
 
     public int Count =>
