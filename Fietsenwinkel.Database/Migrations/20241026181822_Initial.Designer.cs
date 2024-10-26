@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Fietsenwinkel.Database.Migrations
 {
     [DbContext(typeof(FietsenwinkelContext))]
-    [Migration("20241026171152_Initial")]
+    [Migration("20241026181822_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -32,6 +32,9 @@ namespace Fietsenwinkel.Database.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("FrameMaat")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Price")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("VoorraadId")

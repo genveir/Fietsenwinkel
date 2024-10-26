@@ -1,15 +1,16 @@
 ﻿using Fietsenwinkel.Database.Mappers;
 using Fietsenwinkel.Domain.Errors;
 using Fietsenwinkel.Domain.Filialen.Entities;
+using Fietsenwinkel.Domain.Shopping.Plugins;
 using Fietsenwinkel.Shared.Results;
-using Fietsenwinkel.UseCases.Common;
+using Fietsenwinkel.UseCases.Filialen;
 using Fietsenwinkel.UseCases.Voorraden.Plugins;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 
 namespace Fietsenwinkel.Database.Filialen;
 
-internal class FilialenRepository : IFiliaalListAccessor, IFiliaalExistenceChecker
+internal class FilialenRepository : IFiliaalListAccessor, IFiliaalExistenceChecker, IShoppingFiliaalListAccessor
 {
     public async Task<Result<FiliaalList, ErrorCodeSet>> ListFilialen()
     {

@@ -1,4 +1,5 @@
-﻿using Fietsenwinkel.UseCases.Voorbeeld;
+﻿using Fietsenwinkel.UseCases.Shopping;
+using Fietsenwinkel.UseCases.Voorbeeld;
 using Fietsenwinkel.UseCases.Voorraden;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -12,5 +13,6 @@ public static class FietsenwinkelUseCaseModule
         services.AddScoped<IResetDatabaseUseCase, ResetDatabaseUseCase>();
         services.AddScoped<IListFilialenUseCase, ListFilialenUseCase>();
         services.AddScoped<IGetVoorraadDetailsUseCase, GetVoorraadDetailsUseCase>();
+        services.AddScoped<IFietsSearchUseCase, FietsSearchUseCase>();
     }
 }

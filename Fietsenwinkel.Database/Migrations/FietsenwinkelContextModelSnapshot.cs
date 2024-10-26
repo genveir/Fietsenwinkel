@@ -31,6 +31,9 @@ namespace Fietsenwinkel.Database.Migrations
                     b.Property<int>("FrameMaat")
                         .HasColumnType("INTEGER");
 
+                    b.Property<int>("Price")
+                        .HasColumnType("INTEGER");
+
                     b.Property<int>("VoorraadId")
                         .HasColumnType("INTEGER");
 

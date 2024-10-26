@@ -12,13 +12,13 @@ public class EndpointBase : ControllerBase
         var errors = errorSet.Errors;
 
         var maxCode = errors.Select(e => (int)e).Max();
-        var errorString = string.Join(", ", errors.Select(e => e.ToString()));
+        var stringErrors = errors.Select(e => e.ToString());
 
         return maxCode switch
         {
-            < 1000 => NotFound(errorString),
-            < 10000 => BadRequest(errorString),
-            _ => StatusCode(500, errorString),
+            < 1000 => NotFound(stringErrors),
+            < 10000 => BadRequest(stringErrors),
+            _ => StatusCode(500, stringErrors),
         };
     }
 

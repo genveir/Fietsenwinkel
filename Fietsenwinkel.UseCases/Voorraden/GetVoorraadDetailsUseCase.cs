@@ -2,7 +2,7 @@
 using Fietsenwinkel.Domain.Filialen.Entities;
 using Fietsenwinkel.Domain.Voorraden.Entities;
 using Fietsenwinkel.Shared.Results;
-using Fietsenwinkel.UseCases.Common;
+using Fietsenwinkel.UseCases.Filialen;
 using Fietsenwinkel.UseCases.Voorraden.Plugins;
 using System.Threading.Tasks;
 

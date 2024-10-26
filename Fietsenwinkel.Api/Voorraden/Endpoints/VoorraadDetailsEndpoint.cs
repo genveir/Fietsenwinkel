@@ -15,10 +15,10 @@ public class VoorraadDetailsEndpoint : EndpointBase
         this.getVoorraadDetailsUseCase = getVoorraadDetailsUseCase;
     }
 
-    [HttpGet("filialen/{filiaalId}/voorraad/details")]
-    public async Task<IActionResult> GetDetails(string filiaalId)
+    [HttpGet("shops/{shopId}/stock")]
+    public async Task<IActionResult> GetDetails(string shopId)
     {
-        return await FiliaalId.Parse(filiaalId).Switch(
+        return await FiliaalId.Parse(shopId).Switch(
             onSuccess: GetDetails,
             onFailure: FormatErrorAsync);
 

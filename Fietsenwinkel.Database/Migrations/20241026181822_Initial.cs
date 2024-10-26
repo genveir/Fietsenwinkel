@@ -63,6 +63,7 @@ namespace Fietsenwinkel.Database.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     FrameMaat = table.Column<int>(type: "INTEGER", nullable: false),
                     AantalWielen = table.Column<int>(type: "INTEGER", nullable: false),
+                    Price = table.Column<int>(type: "INTEGER", nullable: false),
                     VoorraadId = table.Column<int>(type: "INTEGER", nullable: false),
                     FietsTypeId = table.Column<int>(type: "INTEGER", nullable: false)
                 },

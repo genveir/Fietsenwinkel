@@ -37,7 +37,7 @@ internal static class VoorraadDetailsMapper
 
         foreach (var fiets in fietsen)
         {
-            MapFiets(fiets).Switch(
+            FietsMapper.Map(fiets).Switch(
                 onSuccess: mappedFietsen.Add,
                 onFailure: errors.AddRange);
         }
@@ -48,34 +48,5 @@ internal static class VoorraadDetailsMapper
         }
 
         return Result<Fiets[], ErrorCodeSet>.Succeed([.. mappedFietsen]);
-    }
-
-    private static Result<Fiets, ErrorCodeSet> MapFiets(FietsModel fiets)
-    {
-        ErrorCodeSet errors = [];
-
-        AantalWielen aantalWielen = AantalWielen.Default();
-        AantalWielen.Create(fiets.AantalWielen).Switch(
-            onSuccess: a => aantalWielen = a,
-            onFailure: errors.AddRange);
-
-        FietsType fietsType = FietsType.Default();
-        FietsType.Create(fiets.FietsType.TypeName).Switch(
-            onSuccess: ft => fietsType = ft,
-            onFailure: errors.AddRange);
-
-        FrameMaat frameMaat = FrameMaat.Default();
-        FrameMaat.Create(fiets.FrameMaat).Switch(
-            onSuccess: fm => frameMaat = fm,
-            onFailure: errors.AddRange);
-
-        var mappedFiets = new Fiets(fietsType, aantalWielen, frameMaat);
-
-        if (errors.Count > 0)
-        {
-            return Result<Fiets, ErrorCodeSet>.Fail(errors);
-        }
-
-        return Result<Fiets, ErrorCodeSet>.Succeed(mappedFiets);
     }
 }

@@ -1,5 +1,8 @@
 using Fietsenwinkel.Api;
+using Fietsenwinkel.Application;
 using Fietsenwinkel.Database;
+using Fietsenwinkel.Domain;
+using Fietsenwinkel.MapsApiAdapter;
 using Fietsenwinkel.UseCases;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
@@ -25,9 +28,12 @@ public class Program
 
     private static void ConfigureServices(IServiceCollection services)
     {
+        services.RegisterFietsenwinkelApplicationModule();
         services.RegisterFietsenwinkelApiModule();
         services.RegisterFietsenwinkelDatabaseModule();
         services.RegisterFietsenwinkelUseCaseModule();
+        services.RegisterFietsenwinkelDomainModule();
+        services.RegisterFietsenwinkelMapsApiAdapter();
 
         services.AddControllers();
     }

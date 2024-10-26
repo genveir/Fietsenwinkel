@@ -14,7 +14,7 @@ public class ListFilialenEndpoint : EndpointBase
         this.listFilialenUseCase = listFilialenUseCase;
     }
 
-    [HttpGet("filialen")]
+    [HttpGet("shops")]
     public async Task<IActionResult> ListFilialen()
     {
         var result = await listFilialenUseCase.ListFilialen();

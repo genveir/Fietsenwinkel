@@ -10,6 +10,8 @@ internal class FietsModel
 
     public int AantalWielen { get; set; }
 
+    public int Price { get; set; }
+
     public int VoorraadId { get; set; }
 
     public VoorraadModel Voorraad { get; set; }

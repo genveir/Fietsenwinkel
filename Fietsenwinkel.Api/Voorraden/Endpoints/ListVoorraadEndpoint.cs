@@ -16,10 +16,10 @@ public class ListVoorraadEndpoint : EndpointBase
         this.listVoorraadUseCase = listVoorraadUseCase;
     }
 
-    [HttpGet("filialen/{filiaalId}/voorraad")]
-    public async Task<IActionResult> ListVoorraad(string filiaalId, [FromQuery] string? filter)
+    [HttpGet("shops/{shopId}")]
+    public async Task<IActionResult> ListVoorraad(string shopId, [FromQuery] string? filter)
     {
-        return await FiliaalId.Parse(filiaalId).Switch(
+        return await FiliaalId.Parse(shopId).Switch(
             onSuccess: parsedId => ListVoorraad(parsedId, filter),
             onFailure: FormatErrorAsync);
 

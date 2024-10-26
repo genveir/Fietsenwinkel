@@ -14,8 +14,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Fietsenwinkel.Api\Fietsenwinkel.Api.csproj" />
+    <ProjectReference Include="..\Fietsenwinkel.Application\Fietsenwinkel.Application.csproj" />
     <ProjectReference Include="..\Fietsenwinkel.Database\Fietsenwinkel.Database.csproj" />
     <ProjectReference Include="..\Fietsenwinkel.Domain\Fietsenwinkel.Domain.csproj" />
+    <ProjectReference Include="..\Fietsenwinkel.MapsApiAdapter\Fietsenwinkel.MapsApiAdapter.csproj" />
     <ProjectReference Include="..\Fietsenwinkel.Shared\Fietsenwinkel.Shared.csproj" />
     <ProjectReference Include="..\Fietsenwinkel.UseCases\Fietsenwinkel.UseCases.csproj" />
   </ItemGroup>

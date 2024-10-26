@@ -15,5 +15,5 @@ internal static class VoorraadDetailsMapper
         fietsen.Select(Map).ToArray();
 
     private static VoorraadDetailsFietsOutputModel Map(Fiets fiets) =>
-        new(fiets.Type.Value, fiets.AantalWielen.Value, fiets.FrameMaat.Value);
+        new(fiets.Type.Value, fiets.AantalWielen.Value, fiets.FrameMaat.Value, fiets.Price.Value);
 }

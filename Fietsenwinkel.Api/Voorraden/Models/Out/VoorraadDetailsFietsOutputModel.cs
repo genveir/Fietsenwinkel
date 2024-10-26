@@ -13,10 +13,14 @@ public class VoorraadDetailsFietsOutputModel
     [JsonPropertyName("frameSize")]
     public int FrameSize { get; }
 
-    public VoorraadDetailsFietsOutputModel(string fietsType, int aantalWielen, int frameSize)
+    [JsonPropertyName("price")]
+    public int Price { get; }
+
+    public VoorraadDetailsFietsOutputModel(string fietsType, int aantalWielen, int frameSize, int price)
     {
         FietsType = fietsType;
         AantalWielen = aantalWielen;
         FrameSize = frameSize;
+        Price = price;
     }
 }
