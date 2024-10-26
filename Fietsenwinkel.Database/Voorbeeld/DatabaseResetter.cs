@@ -87,7 +87,7 @@ internal class DatabaseResetter : IDatabaseResetter
         var fietsType = GetRandomFietsType(weightedTypes);
         var maat = random.Next(48, 66);
 
-        return new FietsModel() { FietsType = fietsType, FrameMaat = maat };
+        return new FietsModel() { FietsType = fietsType, FrameMaat = maat, AantalWielen = 2 };
     }
 
     private static FietsTypeModel GetRandomFietsType((int weight, FietsTypeModel fietsType)[] weightedTypes)

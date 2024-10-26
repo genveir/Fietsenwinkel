@@ -8,11 +8,11 @@ namespace Fietsenwinkel.Api.Voorraden.Mappers;
 internal static class VoorraadListMapper
 {
     public static VoorraadListOutputModel Map(VoorraadList voorraadList) =>
-        new VoorraadListOutputModel(Map(voorraadList.VoorraadEntries));
+        new(Map(voorraadList.VoorraadEntries));
 
     internal static VoorraadListEntryOutputModel[] Map(IEnumerable<VoorraadListEntry> voorraadEntries) =>
         voorraadEntries.Select(Map).ToArray();
 
     internal static VoorraadListEntryOutputModel Map(VoorraadListEntry voorraadEntry) =>
-        new VoorraadListEntryOutputModel(voorraadEntry.FietsType.Value, voorraadEntry.Aantal);
+        new(voorraadEntry.FietsType.Value, voorraadEntry.Aantal);
 }

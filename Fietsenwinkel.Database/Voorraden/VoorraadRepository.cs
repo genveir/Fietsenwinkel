@@ -15,8 +15,6 @@ internal class VoorraadRepository : IVoorraadListAccessor
     {
         using var db = new FietsenwinkelContext();
 
-        var voorraden = await db.Voorraden.ToArrayAsync();
-
         var efQuery = db.Voorraden
             .Include(v => v.Fietsen)
             .ThenInclude(f => f.FietsType)

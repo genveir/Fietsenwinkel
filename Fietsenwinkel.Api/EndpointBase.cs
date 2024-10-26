@@ -11,14 +11,15 @@ public class EndpointBase : ControllerBase
     {
         var errors = errorSet.Errors;
 
-        if (errors.Select(e => (int)e).Max() < 10000)
+        var maxCode = errors.Select(e => (int)e).Max();
+        var errorString = string.Join(", ", errors.Select(e => e.ToString()));
+
+        return maxCode switch
         {
-            return BadRequest(errors.Select(e => e.ToString()));
-        }
-        else
-        {
-            return StatusCode(500, errors.Select(e => e.ToString()));
-        }
+            < 1000 => NotFound(errorString),
+            < 10000 => BadRequest(errorString),
+            _ => StatusCode(500, errorString),
+        };
     }
 
     protected Task<IActionResult> FormatErrorAsync(ErrorCodeSet errorSet) =>

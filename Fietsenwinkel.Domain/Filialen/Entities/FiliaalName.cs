@@ -21,19 +21,19 @@ public class FiliaalName : IDomainValueType<string, FiliaalName>
         Value = value;
     }
 
-    private static Result<string, ErrorCodeSet> CheckValidity(string value) =>
+    private static ErrorResult<ErrorCodeSet> CheckValidity(string value) =>
         string.IsNullOrWhiteSpace(value)
-            ? Result<string, ErrorCodeSet>.Fail([ErrorCodes.FiliaalName_Value_NotSet])
-            : Result<string, ErrorCodeSet>.Succeed(value);
+            ? ErrorResult<ErrorCodeSet>.Fail([ErrorCodes.FiliaalName_Value_NotSet])
+            : ErrorResult<ErrorCodeSet>.Succeed();
 
     public static bool IsValidDomainTypeFor(string value) =>
         CheckValidity(value).Switch(
-            _ => true,
+            () => true,
             _ => false);
 
     public static Result<FiliaalName, ErrorCodeSet> Create(string value) =>
         CheckValidity(value).Switch(
-            onSuccess: _ => Result<FiliaalName, ErrorCodeSet>.Succeed(new FiliaalName(value)),
+            onSuccess: () => Result<FiliaalName, ErrorCodeSet>.Succeed(new FiliaalName(value)),
             onFailure: Result<FiliaalName, ErrorCodeSet>.Fail);
 
     public static Result<FiliaalName[], ErrorCodeSet> Create(IEnumerable<string> values) =>
@@ -41,7 +41,7 @@ public class FiliaalName : IDomainValueType<string, FiliaalName>
 
     public static Result<FiliaalName, ErrorCodeSet> Parse(string value) =>
         CheckValidity(value).Switch(
-            onSuccess: _ => Result<FiliaalName, ErrorCodeSet>.Succeed(new FiliaalName(value)),
+            onSuccess: () => Result<FiliaalName, ErrorCodeSet>.Succeed(new FiliaalName(value)),
             onFailure: Result<FiliaalName, ErrorCodeSet>.Fail);
 
     public static Result<FiliaalName[], ErrorCodeSet> Parse(IEnumerable<string> values) =>

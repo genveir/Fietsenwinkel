@@ -8,7 +8,7 @@ namespace Fietsenwinkel.Api.Voorraden.Mappers;
 internal static class FiliaaListlMapper
 {
     public static FiliaalListOutputModel Map(FiliaalList filiaalList) =>
-        new FiliaalListOutputModel(Map(filiaalList.FiliaalListEntries));
+        new(Map(filiaalList.FiliaalListEntries));
 
     private static FiliaalListEntryOutputModel[] Map(IEnumerable<FiliaalListEntry> entries) =>
         entries.Select(Map).ToArray();

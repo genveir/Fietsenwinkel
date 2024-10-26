@@ -2,13 +2,14 @@
 using Fietsenwinkel.Domain.Errors;
 using Fietsenwinkel.Domain.Filialen.Entities;
 using Fietsenwinkel.Shared.Results;
+using Fietsenwinkel.UseCases.Common;
 using Fietsenwinkel.UseCases.Voorraden.Plugins;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 
 namespace Fietsenwinkel.Database.Filialen;
 
-internal class FilialenRepository : IFiliaalListAccessor
+internal class FilialenRepository : IFiliaalListAccessor, IFiliaalExistenceChecker
 {
     public async Task<Result<FiliaalList, ErrorCodeSet>> ListFilialen()
     {
@@ -17,5 +18,12 @@ internal class FilialenRepository : IFiliaalListAccessor
         var filialen = await db.Filialen.ToArrayAsync();
 
         return FiliaalListMapper.Map(filialen);
+    }
+
+    public async Task<bool> Exists(FiliaalId filiaalId)
+    {
+        using var db = new FietsenwinkelContext();
+
+        return await db.Filialen.AnyAsync(f => f.Id == filiaalId.Value);
     }
 }

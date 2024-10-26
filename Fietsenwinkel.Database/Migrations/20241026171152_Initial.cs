@@ -62,8 +62,9 @@ namespace Fietsenwinkel.Database.Migrations
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     FrameMaat = table.Column<int>(type: "INTEGER", nullable: false),
-                    FietsTypeId = table.Column<int>(type: "INTEGER", nullable: false),
-                    VoorraadModelId = table.Column<int>(type: "INTEGER", nullable: true)
+                    AantalWielen = table.Column<int>(type: "INTEGER", nullable: false),
+                    VoorraadId = table.Column<int>(type: "INTEGER", nullable: false),
+                    FietsTypeId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -75,10 +76,11 @@ namespace Fietsenwinkel.Database.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Fietsen_Voorraden_VoorraadModelId",
-                        column: x => x.VoorraadModelId,
+                        name: "FK_Fietsen_Voorraden_VoorraadId",
+                        column: x => x.VoorraadId,
                         principalTable: "Voorraden",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -87,9 +89,9 @@ namespace Fietsenwinkel.Database.Migrations
                 column: "FietsTypeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Fietsen_VoorraadModelId",
+                name: "IX_Fietsen_VoorraadId",
                 table: "Fietsen",
-                column: "VoorraadModelId");
+                column: "VoorraadId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Voorraden_FiliaalId",
