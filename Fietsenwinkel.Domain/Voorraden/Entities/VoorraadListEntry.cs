@@ -2,12 +2,13 @@
 using System;
 
 namespace Fietsenwinkel.Domain.Voorraden.Entities;
-public class VoorraadEntry
+
+public class VoorraadListEntry
 {
     public FietsType FietsType { get; set; }
     public int Aantal { get; set; }
 
-    public VoorraadEntry(FietsType fietsType, int aantal)
+    public VoorraadListEntry(FietsType fietsType, int aantal)
     {
         FietsType = fietsType;
 

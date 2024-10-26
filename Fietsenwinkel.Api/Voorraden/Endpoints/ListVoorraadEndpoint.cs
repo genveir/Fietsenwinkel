@@ -16,7 +16,7 @@ public class ListVoorraadEndpoint : EndpointBase
         this.listVoorraadUseCase = listVoorraadUseCase;
     }
 
-    [HttpGet("filiaal/{filiaalId}/voorraad")]
+    [HttpGet("filialen/{filiaalId}/voorraad")]
     public async Task<IActionResult> ListVoorraad(string filiaalId, [FromQuery] string? filter)
     {
         return await FiliaalId.Parse(filiaalId).Switch(

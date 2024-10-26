@@ -19,6 +19,7 @@ public abstract class Result<TValueType, TErrorType>
             case SuccessResult<TValueType, TErrorType> success:
                 onSuccess(success.Value);
                 break;
+
             case FailureResult<TValueType, TErrorType> failure:
                 onFailure(failure.Error);
                 break;

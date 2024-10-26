@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace Fietsenwinkel.Domain.Errors;
+
 public class ErrorCodeSet : IList<ErrorCodes>
 {
     public List<ErrorCodes> Errors { get; } = [];
@@ -13,7 +14,8 @@ public class ErrorCodeSet : IList<ErrorCodes>
         set => ((IList<ErrorCodes>)Errors)[index] = value;
     }
 
-    public ErrorCodeSet() { }
+    public ErrorCodeSet()
+    { }
 
     public ErrorCodeSet(IEnumerable<ErrorCodes> errors)
     {
@@ -28,6 +30,9 @@ public class ErrorCodeSet : IList<ErrorCodes>
 
     public void Add(ErrorCodes item) =>
         ((ICollection<ErrorCodes>)Errors).Add(item);
+
+    public void AddRange(IEnumerable<ErrorCodes> items) =>
+        Errors.AddRange(items);
 
     public void Clear() =>
         ((ICollection<ErrorCodes>)Errors).Clear();

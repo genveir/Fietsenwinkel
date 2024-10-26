@@ -4,14 +4,15 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace Fietsenwinkel.Api.Voorraden.Mappers;
+
 internal static class VoorraadListMapper
 {
-    public static VoorraadListOutputModel Map(Voorraad voorraad) =>
-        new VoorraadListOutputModel(Map(voorraad.VoorraadEntries));
+    public static VoorraadListOutputModel Map(VoorraadList voorraadList) =>
+        new VoorraadListOutputModel(Map(voorraadList.VoorraadEntries));
 
-    internal static VoorraadListEntryOutputModel[] Map(IEnumerable<VoorraadEntry> voorraadEntries) =>
+    internal static VoorraadListEntryOutputModel[] Map(IEnumerable<VoorraadListEntry> voorraadEntries) =>
         voorraadEntries.Select(Map).ToArray();
 
-    internal static VoorraadListEntryOutputModel Map(VoorraadEntry voorraadEntry) =>
+    internal static VoorraadListEntryOutputModel Map(VoorraadListEntry voorraadEntry) =>
         new VoorraadListEntryOutputModel(voorraadEntry.FietsType.Value, voorraadEntry.Aantal);
 }

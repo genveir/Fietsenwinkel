@@ -5,11 +5,13 @@ using System.Collections.Generic;
 
 namespace Fietsenwinkel.Domain.Filialen.Entities;
 
-public class FiliaalId : IDomainValueType<Guid, FiliaalId>
+public class FiliaalId : IDomainValueType<int, FiliaalId>
 {
-    public Guid Value { get; }
+    public int Value { get; }
 
-    private FiliaalId(Guid value)
+    public static FiliaalId Default() => new(-1);
+
+    private FiliaalId(int value)
     {
         if (!IsValidDomainTypeFor(value))
         {
@@ -19,33 +21,31 @@ public class FiliaalId : IDomainValueType<Guid, FiliaalId>
         Value = value;
     }
 
-    private static Result<Guid, ErrorCodeSet> CheckValidity(Guid guid) =>
-        guid == Guid.Empty
-            ? Result<Guid, ErrorCodeSet>.Fail([ErrorCodes.FiliaalId_Value_Not_Set])
-            : Result<Guid, ErrorCodeSet>.Succeed(guid);
+    private static Result<int, ErrorCodeSet> CheckValidity(int value) =>
+        value == 0
+            ? Result<int, ErrorCodeSet>.Fail([ErrorCodes.FiliaalId_Value_Not_Set])
+            : Result<int, ErrorCodeSet>.Succeed(value);
 
-    public static bool IsValidDomainTypeFor(Guid value)
-    {
-        return CheckValidity(value).Switch(
+    public static bool IsValidDomainTypeFor(int value) =>
+        CheckValidity(value).Switch(
             _ => true,
             _ => false);
-    }
 
-    public static Result<FiliaalId, ErrorCodeSet> Create(Guid value) =>
+    public static Result<FiliaalId, ErrorCodeSet> Create(int value) =>
         CheckValidity(value).Switch(
             onSuccess: _ => Result<FiliaalId, ErrorCodeSet>.Succeed(new FiliaalId(value)),
             onFailure: Result<FiliaalId, ErrorCodeSet>.Fail);
 
-    public static Result<FiliaalId[], ErrorCodeSet> Create(IEnumerable<Guid> values) =>
-        DomainValueTypeHelper.CreateManyRecursive<Guid, FiliaalId>(values);
+    public static Result<FiliaalId[], ErrorCodeSet> Create(IEnumerable<int> values) =>
+        DomainValueTypeHelper.CreateManyRecursive<int, FiliaalId>(values);
 
     public static Result<FiliaalId, ErrorCodeSet> Parse(string value) =>
-        Guid.TryParse(value, out var guid) ?
-            CheckValidity(guid).Switch(
+        int.TryParse(value, out var intValue) ?
+            CheckValidity(intValue).Switch(
                 guid => Result<FiliaalId, ErrorCodeSet>.Succeed(new FiliaalId(guid)),
                 Result<FiliaalId, ErrorCodeSet>.Fail)
         : Result<FiliaalId, ErrorCodeSet>.Fail([ErrorCodes.FiliaalId_Value_Not_Set]);
 
     public static Result<FiliaalId[], ErrorCodeSet> Parse(IEnumerable<string> values) =>
-        DomainValueTypeHelper.ParseManyRecursive<Guid, FiliaalId>(values);
+        DomainValueTypeHelper.ParseManyRecursive<int, FiliaalId>(values);
 }

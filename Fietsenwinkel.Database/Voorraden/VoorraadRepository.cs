@@ -1,45 +1,35 @@
-﻿using Fietsenwinkel.Domain.Errors;
-using Fietsenwinkel.Domain.Fietsen.Entities;
+﻿using Fietsenwinkel.Database.Mappers;
+using Fietsenwinkel.Domain.Errors;
 using Fietsenwinkel.Domain.Voorraden.Entities;
 using Fietsenwinkel.Shared.Results;
 using Fietsenwinkel.UseCases.Voorraden.Plugins;
-using System;
+using Microsoft.EntityFrameworkCore;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Fietsenwinkel.Database.Voorraden;
 
 internal class VoorraadRepository : IVoorraadListAccessor
 {
-    private static Result<FietsType[], ErrorCodeSet> GetFietsTypes()
+    public async Task<Result<VoorraadList, ErrorCodeSet>> ListVoorraad(VoorraadListAccessorQuery query)
     {
-        return FietsType.Create([
-            "Giant Contend",
-            "Giant TCR",
-            "Giant Escape",
-            "Trek Domane",
-            "Trek Emonda",
-            "Trek Marlin"
-        ]);
-    }
+        using var db = new FietsenwinkelContext();
 
-    public Task<Result<Voorraad, ErrorCodeSet>> ListVoorraad(VoorraadListAccessorQuery query)
-    {
-        return GetFietsTypes()
-            .Switch(
-                onSuccess: ListVoorraad,
-                onFailure: errors => Task.FromResult(Result<Voorraad, ErrorCodeSet>.Fail(errors)));
-    }
+        var voorraden = await db.Voorraden.ToArrayAsync();
 
-    private Task<Result<Voorraad, ErrorCodeSet>> ListVoorraad(FietsType[] types)
-    {
-        Random random = new();
+        var efQuery = db.Voorraden
+            .Include(v => v.Fietsen)
+            .ThenInclude(f => f.FietsType)
+            .Where(v => query.Filiaal.Value == v.FiliaalId);
 
-        var deVoorraad = new VoorraadEntry[6];
-        for (int n = 0; n < 6; n++)
+        if (query.NameFilter != null)
         {
-            deVoorraad[n] = new VoorraadEntry(types[n], random.Next(1, 10));
+            efQuery = efQuery
+                .Where(v => v.Fietsen.Any(f => f.FietsType.TypeName.Contains(query.NameFilter)));
         }
 
-        return Task.FromResult(Result<Voorraad, ErrorCodeSet>.Succeed(new Voorraad(deVoorraad)));
+        var result = await efQuery.ToArrayAsync();
+
+        return VoorraadListMapper.Map(result);
     }
 }

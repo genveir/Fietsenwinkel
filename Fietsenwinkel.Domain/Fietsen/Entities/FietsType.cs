@@ -11,6 +11,8 @@ public partial class FietsType : IDomainValueType<string, FietsType>
 {
     public string Value { get; }
 
+    public static FietsType Default() => new("Unknown Unknown");
+
     private FietsType(string value)
     {
         if (!HasContent(value))

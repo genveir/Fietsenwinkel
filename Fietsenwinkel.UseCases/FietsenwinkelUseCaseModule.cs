@@ -10,5 +10,6 @@ public static class FietsenwinkelUseCaseModule
     {
         services.AddScoped<IListVoorraadUseCase, ListVoorraadUseCase>();
         services.AddScoped<IResetDatabaseUseCase, ResetDatabaseUseCase>();
+        services.AddScoped<IListFilialenUseCase, ListFilialenUseCase>();
     }
 }

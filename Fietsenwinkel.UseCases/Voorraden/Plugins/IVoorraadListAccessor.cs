@@ -9,5 +9,5 @@ public record VoorraadListAccessorQuery(FiliaalId Filiaal, string? NameFilter);
 
 public interface IVoorraadListAccessor
 {
-    Task<Result<Voorraad, ErrorCodeSet>> ListVoorraad(VoorraadListAccessorQuery query);
+    Task<Result<VoorraadList, ErrorCodeSet>> ListVoorraad(VoorraadListAccessorQuery query);
 }

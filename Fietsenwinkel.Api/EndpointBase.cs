@@ -13,11 +13,11 @@ public class EndpointBase : ControllerBase
 
         if (errors.Select(e => (int)e).Max() < 10000)
         {
-            return BadRequest(errors);
+            return BadRequest(errors.Select(e => e.ToString()));
         }
         else
         {
-            return StatusCode(500, errors);
+            return StatusCode(500, errors.Select(e => e.ToString()));
         }
     }
 
