@@ -12,12 +12,28 @@ public static class FietsSearchMapper
 {
     public static Result<FietsSearchQuery, ErrorCodeSet> Map(FietsSearchInputModel model)
     {
-        ErrorCodeSet errors = [];
-
         if (model == null)
         {
             return Result<FietsSearchQuery, ErrorCodeSet>.Fail([ErrorCodes.No_Input_Model_Provided]);
         }
+
+        return Result.Combine(
+            MapKlant(model),
+            MapFietsType(model)).Switch(
+            onSuccess: vt =>
+            {
+                var (klant, fietsType) = vt;
+
+                var fietsSearchQuery = new FietsSearchQuery(klant, fietsType);
+
+                return Result<FietsSearchQuery, ErrorCodeSet>.Succeed(fietsSearchQuery);
+            },
+            onFailure: Result<FietsSearchQuery, ErrorCodeSet>.Fail);
+    }
+
+    private static Result<Klant, ErrorCodeSet> MapKlant(FietsSearchInputModel model)
+    {
+        var errors = new ErrorCodeSet();
 
         if (model.UserHeight == null)
         {
@@ -37,34 +53,30 @@ public static class FietsSearchMapper
             errors.Add(ErrorCodes.User_Location_Not_Set);
         }
 
-        Money budget = Money.Default();
         if (model.UserBudget == null)
         {
             errors.Add(ErrorCodes.User_Budget_Not_Set);
         }
         else
         {
-            Money.Create(model.UserBudget.Value).Switch(
-                onSuccess: m => budget = m,
-                onFailure: errors.AddRange);
+            return Money.Create(model.UserBudget.Value).Switch(
+                onSuccess: m => Result<Klant, ErrorCodeSet>.Succeed(new Klant(model.UserHeight!.Value, model.UserLocation!, m)),
+                onFailure: e => Result<Klant, ErrorCodeSet>.Fail(errors.Combine(e)));
         }
 
-        FietsType? fietsTypePreference = null;
+        return Result<Klant, ErrorCodeSet>.Fail(errors);
+    }
+
+    private static Result<FietsType?, ErrorCodeSet> MapFietsType(FietsSearchInputModel model)
+    {
         if (model.FietsTypePreference != null)
         {
-            FietsType.Create(model.FietsTypePreference).Switch(
-                onSuccess: ft => fietsTypePreference = ft,
-                onFailure: errors.AddRange);
+            return FietsType.Create(model.FietsTypePreference).Switch(
+                onSuccess: Result<FietsType?, ErrorCodeSet>.Succeed,
+                onFailure: Result<FietsType?, ErrorCodeSet>.Fail);
         }
 
-        if (errors.Count > 0)
-        {
-            return Result<FietsSearchQuery, ErrorCodeSet>.Fail(errors);
-        }
-
-        var klant = new Klant(model.UserHeight!.Value, model.UserLocation!, budget);
-
-        return Result<FietsSearchQuery, ErrorCodeSet>.Succeed(new(klant, fietsTypePreference));
+        return Result<FietsType?, ErrorCodeSet>.Succeed(null);
     }
 
     public static FietsSearchOutputModel Map(Fiets fiets) =>

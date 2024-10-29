@@ -1,10 +1,11 @@
-﻿using System.Collections;
+﻿using Fietsenwinkel.Shared.Results;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace Fietsenwinkel.Domain.Errors;
 
-public class ErrorCodeSet : IList<ErrorCodes>
+public class ErrorCodeSet : IList<ErrorCodes>, ICombinable<ErrorCodeSet>
 {
     public List<ErrorCodes> Errors { get; } = [];
 
@@ -60,4 +61,7 @@ public class ErrorCodeSet : IList<ErrorCodes>
 
     IEnumerator IEnumerable.GetEnumerator() =>
         ((IEnumerable)Errors).GetEnumerator();
+
+    public ErrorCodeSet Combine(ErrorCodeSet combinable) =>
+        new(Errors.Concat(combinable.Errors));
 }
