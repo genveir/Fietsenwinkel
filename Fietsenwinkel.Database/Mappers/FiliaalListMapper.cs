@@ -1,38 +1,33 @@
 ﻿using Fietsenwinkel.Database.Models;
 using Fietsenwinkel.Domain.Errors;
 using Fietsenwinkel.Domain.Filialen.Entities;
-using System.Linq;
-
-using Result = Fietsenwinkel.Shared.Results.Result<
-    Fietsenwinkel.Domain.Filialen.Entities.FiliaalList,
-    Fietsenwinkel.Domain.Errors.ErrorCodeSet>;
+using Fietsenwinkel.Shared.Results;
+using System.Collections.Generic;
 
 namespace Fietsenwinkel.Database.Mappers;
 
 internal static class FiliaalListMapper
 {
-    public static Result Map(FiliaalModel[] filiaalModels)
+    public static Result<FiliaalList, ErrorCodeSet> Map(FiliaalModel[] filiaalModels)
     {
         ErrorCodeSet errors = [];
+        List<FiliaalListEntry> filiaalListEntries = [];
 
-        var entries = filiaalModels
-            .Select(fm =>
-            {
-                FiliaalId id = FiliaalId.Default();
-                FiliaalId.Create(fm.Id).Switch(
-                    onSuccess: result => id = result,
-                    onFailure: _ => errors.Add(ErrorCodes.FiliaalId_Invalid_Format));
-
-                FiliaalName name = FiliaalName.Default();
-                FiliaalName.Create(fm.Name).Switch(
-                    onSuccess: n => name = n,
-                    onFailure: _ => errors.Add(ErrorCodes.FiliaalName_Invalid_Format));
-
-                return new FiliaalListEntry(id, name);
-            }).ToArray();
+        foreach (var fm in filiaalModels)
+        {
+            Result.Combine(
+                FiliaalId.Create(fm.Id),
+                FiliaalName.Create(fm.Name)).Switch(
+                    onSuccess: vt =>
+                    {
+                        var (id, name) = vt;
+                        filiaalListEntries.Add(new(id, name));
+                    },
+                    onFailure: errors.AddRange);
+        }
 
         return errors.Count == 0 ?
-            Result.Succeed(new(entries)) :
-            Result.Fail(errors);
+            Result<FiliaalList, ErrorCodeSet>.Succeed(new([.. filiaalListEntries])) :
+            Result<FiliaalList, ErrorCodeSet>.Fail(errors);
     }
 }

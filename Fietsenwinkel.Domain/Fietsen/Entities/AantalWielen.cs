@@ -7,8 +7,6 @@ public class AantalWielen : IDomainValueType<int, AantalWielen>
 {
     public int Value { get; }
 
-    public static AantalWielen Default() => new(2);
-
     private AantalWielen(int value)
     {
         Value = value;

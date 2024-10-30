@@ -7,8 +7,6 @@ public class FiliaalId : IDomainValueType<int, FiliaalId>
 {
     public int Value { get; }
 
-    public static FiliaalId Default() => new(-1);
-
     private FiliaalId(int value)
     {
         Value = value;

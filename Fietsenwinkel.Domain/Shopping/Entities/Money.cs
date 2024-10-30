@@ -8,8 +8,6 @@ public class Money : IDomainValueType<int, Money>
 {
     public int Value { get; }
 
-    public static Money Default() => new(-1);
-
     private Money(int value)
     {
         CheckValidity(value).Switch(

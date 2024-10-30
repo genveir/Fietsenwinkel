@@ -7,8 +7,6 @@ public class FrameMaat : IDomainValueType<int, FrameMaat>
 {
     public int Value { get; }
 
-    public static FrameMaat Default() => new(40);
-
     private FrameMaat(int value)
     {
         Value = value;

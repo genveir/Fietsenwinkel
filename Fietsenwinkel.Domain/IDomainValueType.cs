@@ -8,7 +8,5 @@ public interface IDomainValueType<TValueType, TImplementationType>
 {
     public TValueType Value { get; }
 
-    public abstract static TImplementationType Default();
-
     public abstract static Result<TImplementationType, ErrorCodeSet> Create(TValueType value);
 }

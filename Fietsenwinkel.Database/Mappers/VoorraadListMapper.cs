@@ -6,10 +6,6 @@ using Fietsenwinkel.Domain.Voorraden.Entities;
 using Fietsenwinkel.Shared.Results;
 using System.Linq;
 
-using Result = Fietsenwinkel.Shared.Results.Result<
-    Fietsenwinkel.Domain.Voorraden.Entities.VoorraadList,
-    Fietsenwinkel.Domain.Errors.ErrorCodeSet>;
-
 namespace Fietsenwinkel.Database.Mappers;
 
 internal static class VoorraadListMapper
@@ -18,42 +14,28 @@ internal static class VoorraadListMapper
     // dus nu heeft een filiaal een collectie van voorraden) moet de mapper om kunnen gaan met meerdere voorraden. Dit is
     // een database concern, in het domein kan het namelijk niet.
 
-    public static Result Map(VoorraadModel[] voorraadModels)
+    public static Result<VoorraadList, ErrorCodeSet> Map(VoorraadModel[] voorraadModels)
     {
         if (voorraadModels.Length == 0)
         {
-            return Result.Fail([ErrorCodes.Voorraad_Not_Found]);
+            return Result<VoorraadList, ErrorCodeSet>.Fail([ErrorCodes.Voorraad_Not_Found]);
         }
 
         if (!voorraadModels.All(vm => vm.FiliaalId == voorraadModels.First().FiliaalId))
         {
-            return Result.Fail([ErrorCodes.Legacy_Voorraden_Have_Different_FiliaalIds]);
+            return Result<VoorraadList, ErrorCodeSet>.Fail([ErrorCodes.Legacy_Voorraden_Have_Different_FiliaalIds]);
         }
 
-        ErrorCodeSet errors = [];
+        return Result.Combine(
+            FiliaalId.Create(voorraadModels.First().FiliaalId),
+            MapEntries(voorraadModels)).Switch(
+            onSuccess: vt =>
+            {
+                var (filiaalId, entries) = vt;
 
-        FiliaalId filiaalId = FiliaalId.Default();
-        FiliaalId.Create(voorraadModels.First().FiliaalId)
-            .Switch(
-                onSuccess: f => filiaalId = f,
-                onFailure: errors.AddRange);
-
-        VoorraadListEntry[] entries = [];
-        MapEntries(voorraadModels)
-            .Switch(
-                onSuccess: e => entries = e,
-                onFailure: errors.AddRange);
-
-        if (errors.Count > 0)
-        {
-            return Result.Fail(errors);
-        }
-
-        var voorraadList = new VoorraadList(
-            filiaalId!,
-            entries);
-
-        return Result.Succeed(voorraadList);
+                return Result<VoorraadList, ErrorCodeSet>.Succeed(new(filiaalId, entries));
+            },
+            onFailure: Result<VoorraadList, ErrorCodeSet>.Fail);
     }
 
     private static Result<VoorraadListEntry[], ErrorCodeSet> MapEntries(VoorraadModel[] voorraadModels)
@@ -72,12 +54,9 @@ internal static class VoorraadListMapper
             var fietsTypeModel = group.Key;
             var number = group.Count();
 
-            FietsType fietsType = FietsType.Default();
             FietsType.Create(fietsTypeModel.TypeName).Switch(
-                onSuccess: ft => fietsType = ft,
+                onSuccess: ft => result[index] = new VoorraadListEntry(ft, number),
                 onFailure: errors.AddRange);
-
-            result[index] = new VoorraadListEntry(fietsType, number);
 
             index++;
         }

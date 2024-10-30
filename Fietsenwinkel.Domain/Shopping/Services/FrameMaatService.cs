@@ -1,13 +1,21 @@
-﻿using Fietsenwinkel.Domain.Fietsen.Entities;
+﻿using Fietsenwinkel.Domain.Errors;
+using Fietsenwinkel.Domain.Fietsen.Entities;
+using Fietsenwinkel.Shared.Results;
 using System;
 
 namespace Fietsenwinkel.Domain.Shopping.Services;
 
 internal static class FrameMaatService
 {
-    public static (FrameMaat min, FrameMaat max) DetermineSizesFor(int height)
-    {
-        FrameMaat min = FrameMaat.Default();
+    public static (FrameMaat min, FrameMaat max) DetermineSizesFor(int height) =>
+        Result.Combine(
+            DetermineMin(height),
+            DetermineMax(height))
+                .Switch(
+                    onSuccess: vt => vt,
+                    onFailure: _ => throw new NotImplementedException("Dit zou niet moeten kunnen"));
+
+    private static Result<FrameMaat, ErrorCodeSet> DetermineMin(int height) =>
         FrameMaat.Create(height switch
         {
             <= 164 => 48,
@@ -29,11 +37,9 @@ internal static class FrameMaatService
             <= 206 => 64,
             <= 208 => 65,
             _ => 66
-        }).Switch(
-            onSuccess: v => min = v,
-            onFailure: _ => throw new InvalidOperationException("dit zou niet moeten kunnen"));
+        });
 
-        FrameMaat max = FrameMaat.Default();
+    private static Result<FrameMaat, ErrorCodeSet> DetermineMax(int height) =>
         FrameMaat.Create(height switch
         {
             >= 195 => 66,
@@ -55,10 +61,5 @@ internal static class FrameMaatService
             >= 155 => 50,
             >= 153 => 49,
             _ => 48
-        }).Switch(
-            onSuccess: v => max = v,
-            onFailure: _ => throw new InvalidOperationException("dit zou niet moeten kunnen"));
-
-        return (min, max);
-    }
+        });
 }
