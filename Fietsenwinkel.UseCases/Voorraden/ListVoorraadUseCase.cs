@@ -1,13 +1,18 @@
 ﻿using Fietsenwinkel.Domain.Errors;
+using Fietsenwinkel.Domain.Filialen.Entities;
 using Fietsenwinkel.Domain.Voorraden.Entities;
 using Fietsenwinkel.Shared.Results;
-using Fietsenwinkel.UseCases.Voorraden.Abstractions;
 using Fietsenwinkel.UseCases.Voorraden.Plugins;
 using System.Threading.Tasks;
 
 namespace Fietsenwinkel.UseCases.Voorraden;
 
-public record ListVoorraadQuery(string? NameFilter);
+public record ListVoorraadQuery(FiliaalId Filiaal, string? NameFilter);
+
+public interface IListVoorraadUseCase
+{
+    Task<Result<Voorraad, ErrorCodeSet>> GetVoorraad(ListVoorraadQuery query);
+}
 
 internal class ListVoorraadUseCase : IListVoorraadUseCase
 {
@@ -20,7 +25,7 @@ internal class ListVoorraadUseCase : IListVoorraadUseCase
 
     public async Task<Result<Voorraad, ErrorCodeSet>> GetVoorraad(ListVoorraadQuery query)
     {
-        var accessorQuery = new VoorraadListAccessorQuery(query.NameFilter);
+        var accessorQuery = new VoorraadListAccessorQuery(query.Filiaal, query.NameFilter);
 
         return await voorraadListAccessor.ListVoorraad(accessorQuery);
     }

@@ -10,4 +10,8 @@
     <ProjectReference Include="..\Fietsenwinkel.UseCases\Fietsenwinkel.UseCases.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.10" />
+  </ItemGroup>
+
 </Project>

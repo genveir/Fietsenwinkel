@@ -12,17 +12,12 @@ public class Program
     {
         var builder = WebApplication.CreateBuilder(args);
 
-        // Add services to the container.
         ConfigureServices(builder.Services);
 
         var app = builder.Build();
 
-        // Configure the HTTP request pipeline.
-
         app.UseHttpsRedirection();
-
         app.UseAuthorization();
-
         app.MapControllers();
 
         app.Run();

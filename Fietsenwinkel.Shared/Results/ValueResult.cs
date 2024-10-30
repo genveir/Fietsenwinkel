@@ -8,14 +8,29 @@ public abstract class ValueResult<TValueType>
 
     public static ValueResult<TValueType> Fail() => new ValueFailureResult<TValueType>();
 
-    public TReturnType Swich<TReturnType>(
+    public void Switch(
+        Action<TValueType> onSuccess,
+        Action onFailure)
+    {
+        switch (this)
+        {
+            case ValueSuccessResult<TValueType> success:
+                onSuccess(success.Value);
+                break;
+            case ValueFailureResult<TValueType>:
+                onFailure();
+                break;
+        }
+    }
+
+    public TReturnType Switch<TReturnType>(
         Func<TValueType, TReturnType> onSuccess,
         Func<TReturnType> onFailure)
     {
         return this switch
         {
             ValueSuccessResult<TValueType> success => onSuccess(success.Value),
-            ValueFailureResult<TValueType> failure => onFailure(),
+            ValueFailureResult<TValueType> => onFailure(),
             _ => throw new InvalidOperationException("Unknown result type")
         };
     }

@@ -1,13 +1,16 @@
-﻿using System;
+﻿using Fietsenwinkel.Domain.Errors;
+using Fietsenwinkel.Shared.Results;
+using System;
 
 namespace Fietsenwinkel.Domain.Fietsen.Entities;
+
 public class Fiets
 {
     public FietsType Type { get; set; }
 
     public int AantalWielen { get; set; }
 
-    public Fiets(FietsType type, int aantalWielen)
+    private Fiets(FietsType type, int aantalWielen)
     {
         Type = type;
 
@@ -21,5 +24,15 @@ public class Fiets
         }
 
         AantalWielen = aantalWielen;
+    }
+
+    public static Result<Fiets, ErrorCodeSet> Create(FietsType type, int aantalWielen)
+    {
+        return aantalWielen switch
+        {
+            < 1 => Result<Fiets, ErrorCodeSet>.Fail([ErrorCodes.Fiets_Has_No_Wheels]),
+            > 3 => Result<Fiets, ErrorCodeSet>.Fail([ErrorCodes.Fiets_Has_Too_Many_Wheels]),
+            _ => Result<Fiets, ErrorCodeSet>.Succeed(new Fiets(type, aantalWielen))
+        };
     }
 }

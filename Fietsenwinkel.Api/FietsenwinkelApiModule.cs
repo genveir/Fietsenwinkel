@@ -6,6 +6,5 @@ public static class FietsenwinkelApiModule
 {
     public static void RegisterFietsenwinkelApiModule(this IServiceCollection services)
     {
-
     }
 }

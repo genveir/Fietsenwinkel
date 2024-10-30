@@ -1,6 +1,7 @@
 ﻿using Fietsenwinkel.Domain.Errors;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Fietsenwinkel.Api;
 
@@ -19,4 +20,7 @@ public class EndpointBase : ControllerBase
             return StatusCode(500, errors);
         }
     }
+
+    protected Task<IActionResult> FormatErrorAsync(ErrorCodeSet errorSet) =>
+        Task.FromResult(FormatError(errorSet));
 }
