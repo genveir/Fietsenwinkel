@@ -10,9 +10,9 @@ namespace Fietsenwinkel.Database.Mappers;
 
 internal static class VoorraadDetailsMapper
 {
-    public static Result<VoorraadDetails, ErrorCodeSet> Map(FiliaalId filiaalId, FietsModel[] fietsen)
+    public static Result<VoorraadDetails, ErrorCodeList> Map(FiliaalId filiaalId, FietsModel[] fietsen)
     {
-        ErrorCodeSet errors = [];
+        ErrorCodeList errors = [];
 
         Fiets[] mappedFietsen = [];
         MapFietsen(fietsen).Switch(
@@ -21,17 +21,17 @@ internal static class VoorraadDetailsMapper
 
         if (errors.Count > 0)
         {
-            return Result<VoorraadDetails, ErrorCodeSet>.Fail(errors);
+            return Result<VoorraadDetails, ErrorCodeList>.Fail(errors);
         }
 
         var voorraadDetails = new VoorraadDetails(filiaalId, mappedFietsen);
 
-        return Result<VoorraadDetails, ErrorCodeSet>.Succeed(voorraadDetails);
+        return Result<VoorraadDetails, ErrorCodeList>.Succeed(voorraadDetails);
     }
 
-    private static Result<Fiets[], ErrorCodeSet> MapFietsen(FietsModel[] fietsen)
+    private static Result<Fiets[], ErrorCodeList> MapFietsen(FietsModel[] fietsen)
     {
-        ErrorCodeSet errors = [];
+        ErrorCodeList errors = [];
 
         List<Fiets> mappedFietsen = [];
 
@@ -44,9 +44,9 @@ internal static class VoorraadDetailsMapper
 
         if (errors.Count > 0)
         {
-            return Result<Fiets[], ErrorCodeSet>.Fail(errors);
+            return Result<Fiets[], ErrorCodeList>.Fail(errors);
         }
 
-        return Result<Fiets[], ErrorCodeSet>.Succeed([.. mappedFietsen]);
+        return Result<Fiets[], ErrorCodeList>.Succeed([.. mappedFietsen]);
     }
 }

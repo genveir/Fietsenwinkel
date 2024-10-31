@@ -7,5 +7,5 @@ namespace Fietsenwinkel.Domain.Shopping.Plugins;
 
 public interface IShoppingFiliaalListAccessor
 {
-    Task<Result<FiliaalList, ErrorCodeSet>> ListFilialen();
+    Task<Result<FiliaalList, ErrorCodeList>> ListFilialen();
 }

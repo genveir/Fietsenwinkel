@@ -8,7 +8,7 @@ namespace Fietsenwinkel.Database.Mappers;
 
 internal class FietsMapper
 {
-    internal static Result<Fiets, ErrorCodeSet> Map(FietsModel fiets) =>
+    internal static Result<Fiets, ErrorCodeList> Map(FietsModel fiets) =>
         Result.Combine(
             AantalWielen.Create(fiets.AantalWielen),
             FietsType.Create(fiets.FietsType.TypeName),
@@ -18,8 +18,8 @@ internal class FietsMapper
                 {
                     var (aantalWielen, fietsType, frameMaat, price) = vt;
 
-                    return Result<Fiets, ErrorCodeSet>
+                    return Result<Fiets, ErrorCodeList>
                         .Succeed(new Fiets(fietsType, aantalWielen, frameMaat, price));
                 },
-                onFailure: Result<Fiets, ErrorCodeSet>.Fail);
+                onFailure: Result<Fiets, ErrorCodeList>.Fail);
 }

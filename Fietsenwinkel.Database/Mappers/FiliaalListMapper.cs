@@ -8,9 +8,9 @@ namespace Fietsenwinkel.Database.Mappers;
 
 internal static class FiliaalListMapper
 {
-    public static Result<FiliaalList, ErrorCodeSet> Map(FiliaalModel[] filiaalModels)
+    public static Result<FiliaalList, ErrorCodeList> Map(FiliaalModel[] filiaalModels)
     {
-        ErrorCodeSet errors = [];
+        ErrorCodeList errors = [];
         List<FiliaalListEntry> filiaalListEntries = [];
 
         foreach (var fm in filiaalModels)
@@ -27,7 +27,7 @@ internal static class FiliaalListMapper
         }
 
         return errors.Count == 0 ?
-            Result<FiliaalList, ErrorCodeSet>.Succeed(new([.. filiaalListEntries])) :
-            Result<FiliaalList, ErrorCodeSet>.Fail(errors);
+            Result<FiliaalList, ErrorCodeList>.Succeed(new([.. filiaalListEntries])) :
+            Result<FiliaalList, ErrorCodeList>.Fail(errors);
     }
 }

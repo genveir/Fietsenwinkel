@@ -19,9 +19,9 @@ public partial class FietsType : IDomainValueType<string, FietsType>
     private static bool MatchesTypePattern(string value) =>
         TypePattern().IsMatch(value);
 
-    private static ErrorResult<ErrorCodeSet> CheckValidity(string value)
+    private static ErrorResult<ErrorCodeList> CheckValidity(string value)
     {
-        var errors = new ErrorCodeSet();
+        var errors = new ErrorCodeList();
 
         if (!HasContent(value))
         {
@@ -35,16 +35,16 @@ public partial class FietsType : IDomainValueType<string, FietsType>
 
         if (errors.Count != 0)
         {
-            return ErrorResult<ErrorCodeSet>.Fail(errors);
+            return ErrorResult<ErrorCodeList>.Fail(errors);
         }
-        return ErrorResult<ErrorCodeSet>.Succeed();
+        return ErrorResult<ErrorCodeList>.Succeed();
     }
 
-    public static Result<FietsType, ErrorCodeSet> Create(string value) =>
+    public static Result<FietsType, ErrorCodeList> Create(string value) =>
         CheckValidity(value)
             .Switch(
-                () => Result<FietsType, ErrorCodeSet>.Succeed(new FietsType(value)),
-                Result<FietsType, ErrorCodeSet>.Fail);
+                () => Result<FietsType, ErrorCodeList>.Succeed(new FietsType(value)),
+                Result<FietsType, ErrorCodeList>.Fail);
 
     [GeneratedRegex(@"^[a-zA-Z0-9]+ [a-zA-Z0-9]+$")]
     protected static partial Regex TypePattern();

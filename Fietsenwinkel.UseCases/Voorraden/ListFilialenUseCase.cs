@@ -8,7 +8,7 @@ namespace Fietsenwinkel.UseCases.Voorraden;
 
 public interface IListFilialenUseCase
 {
-    Task<Result<FiliaalList, ErrorCodeSet>> ListFilialen();
+    Task<Result<FiliaalList, ErrorCodeList>> ListFilialen();
 }
 
 internal class ListFilialenUseCase : IListFilialenUseCase
@@ -20,7 +20,7 @@ internal class ListFilialenUseCase : IListFilialenUseCase
         this.filiaalListAccessor = filiaalListAccessor;
     }
 
-    public async Task<Result<FiliaalList, ErrorCodeSet>> ListFilialen()
+    public async Task<Result<FiliaalList, ErrorCodeList>> ListFilialen()
     {
         return await filiaalListAccessor.ListFilialen();
     }

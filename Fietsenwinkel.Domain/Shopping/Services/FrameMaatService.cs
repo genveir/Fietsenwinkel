@@ -15,7 +15,7 @@ internal static class FrameMaatService
                     onSuccess: vt => vt,
                     onFailure: _ => throw new NotImplementedException("Dit zou niet moeten kunnen"));
 
-    private static Result<FrameMaat, ErrorCodeSet> DetermineMin(int height) =>
+    private static Result<FrameMaat, ErrorCodeList> DetermineMin(int height) =>
         FrameMaat.Create(height switch
         {
             <= 164 => 48,
@@ -39,7 +39,7 @@ internal static class FrameMaatService
             _ => 66
         });
 
-    private static Result<FrameMaat, ErrorCodeSet> DetermineMax(int height) =>
+    private static Result<FrameMaat, ErrorCodeList> DetermineMax(int height) =>
         FrameMaat.Create(height switch
         {
             >= 195 => 66,

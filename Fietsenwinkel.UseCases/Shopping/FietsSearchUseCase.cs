@@ -12,7 +12,7 @@ public record FietsSearchQuery(Klant Klant, FietsType? PreferredType);
 
 public interface IFietsSearchUseCase
 {
-    Task<Result<Fiets, ErrorCodeSet>> Search(FietsSearchQuery query);
+    Task<Result<Fiets, ErrorCodeList>> Search(FietsSearchQuery query);
 }
 
 internal class FietsSearchUseCase : IFietsSearchUseCase
@@ -28,7 +28,7 @@ internal class FietsSearchUseCase : IFietsSearchUseCase
         this.fietsRefetcher = fietsRefetcher;
     }
 
-    public async Task<Result<Fiets, ErrorCodeSet>> Search(FietsSearchQuery query)
+    public async Task<Result<Fiets, ErrorCodeList>> Search(FietsSearchQuery query)
     {
         var bestFietsQuery = new DetermineBestFietsForKlantQuery(query.Klant, query.PreferredType);
 
@@ -36,16 +36,16 @@ internal class FietsSearchUseCase : IFietsSearchUseCase
 
         return await bestFietsResult.Switch(
             onSuccess: ReserveFiets,
-            onFailure: errors => Task.FromResult(Result<Fiets, ErrorCodeSet>.Fail(errors)));
+            onFailure: errors => Task.FromResult(Result<Fiets, ErrorCodeList>.Fail(errors)));
 
-        async Task<Result<Fiets, ErrorCodeSet>> ReserveFiets(Fiets bestFiets)
+        async Task<Result<Fiets, ErrorCodeList>> ReserveFiets(Fiets bestFiets)
         {
             var reserveResult = await fietsReserver.ReserveFietsForUser(bestFiets, query.Klant);
 
             // om de een of andere reden moeten we de fiets opnieuw fetchen na het reserveren
             return await reserveResult.Switch(
                 onSuccess: () => fietsRefetcher.RefetchFiets(bestFiets),
-                onFailure: errors => Task.FromResult(Result<Fiets, ErrorCodeSet>.Fail(errors)));
+                onFailure: errors => Task.FromResult(Result<Fiets, ErrorCodeList>.Fail(errors)));
         }
     }
 }

@@ -19,7 +19,7 @@ public class MapsApiLocationResolver : IDistanceResolver
     // een cache bijhouden van domain coordinates en api coordinates. Als object op de domain positions gooien
     // kan ook, maar dan moet je ze alsnog hier weer uitlezen of naar dynamic casten om ze te kunnen gebruiken.
 
-    public async Task<Result<int, ErrorCodeSet>> ResolveDistanceBetween(string location, FiliaalName filiaalName)
+    public async Task<Result<int, ErrorCodeList>> ResolveDistanceBetween(string location, FiliaalName filiaalName)
     {
         try
         {
@@ -28,15 +28,15 @@ public class MapsApiLocationResolver : IDistanceResolver
 
             var distance = coordinate.GetDistanceTo(shopLocation);
 
-            return Result<int, ErrorCodeSet>.Succeed(distance);
+            return Result<int, ErrorCodeList>.Succeed(distance);
         }
         catch (KanIkNietVindenException)
         {
-            return Result<int, ErrorCodeSet>.Fail([ErrorCodes.MapsApi_Cannot_Locate_Place]);
+            return Result<int, ErrorCodeList>.Fail([ErrorCodes.MapsApi_Cannot_Locate_Place]);
         }
         catch (Exception)
         {
-            return Result<int, ErrorCodeSet>.Fail([ErrorCodes.MapsApi_Cannot_Be_Reached]);
+            return Result<int, ErrorCodeList>.Fail([ErrorCodes.MapsApi_Cannot_Be_Reached]);
         }
     }
 }

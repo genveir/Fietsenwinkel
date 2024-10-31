@@ -14,7 +14,7 @@ public record DetermineBestFietsForKlantQuery(Klant Klant, FietsType? PreferredF
 
 public interface IDetermineBestFietsForKlantService
 {
-    Task<Result<Fiets, ErrorCodeSet>> DetermineBestFiets(DetermineBestFietsForKlantQuery query);
+    Task<Result<Fiets, ErrorCodeList>> DetermineBestFiets(DetermineBestFietsForKlantQuery query);
 }
 
 internal class DetermineBestFietsForKlantService : IDetermineBestFietsForKlantService
@@ -33,7 +33,7 @@ internal class DetermineBestFietsForKlantService : IDetermineBestFietsForKlantSe
         this.anyMatchingFietsResolver = anyMatchingFietsResolver;
     }
 
-    public async Task<Result<Fiets, ErrorCodeSet>> DetermineBestFiets(DetermineBestFietsForKlantQuery query)
+    public async Task<Result<Fiets, ErrorCodeList>> DetermineBestFiets(DetermineBestFietsForKlantQuery query)
     {
         var (min, max) = FrameMaatService.DetermineSizesFor(query.Klant.Height);
 
@@ -41,70 +41,70 @@ internal class DetermineBestFietsForKlantService : IDetermineBestFietsForKlantSe
 
         return await filiaalListResult.Switch(
             onSuccess: DetermineClosest,
-            onFailure: errors => Task.FromResult(Result<Fiets, ErrorCodeSet>.Fail(errors)));
+            onFailure: errors => Task.FromResult(Result<Fiets, ErrorCodeList>.Fail(errors)));
 
-        async Task<Result<Fiets, ErrorCodeSet>> DetermineClosest(FiliaalList filiaalList)
+        async Task<Result<Fiets, ErrorCodeList>> DetermineClosest(FiliaalList filiaalList)
         {
             var closestResult = await DetermineNearestFiliaal(filiaalList, query.Klant.Location);
 
             return await closestResult.Switch(
                 onSuccess: DetermineInBudget,
-                onFailure: errors => Task.FromResult(Result<Fiets, ErrorCodeSet>.Fail(errors)));
+                onFailure: errors => Task.FromResult(Result<Fiets, ErrorCodeList>.Fail(errors)));
         }
 
-        async Task<Result<Fiets, ErrorCodeSet>> DetermineInBudget(FiliaalId filiaal)
+        async Task<Result<Fiets, ErrorCodeList>> DetermineInBudget(FiliaalId filiaal)
         {
             var budgetResult = await this.DetermineInBudget(filiaal, min, max, query);
 
             return await budgetResult.Switch(
-                onSuccess: fiets => Task.FromResult(Result<Fiets, ErrorCodeSet>.Succeed(fiets)),
+                onSuccess: fiets => Task.FromResult(Result<Fiets, ErrorCodeList>.Succeed(fiets)),
                 onFailure: errors =>
                 {
                     if (errors.Count == 1 && errors.Single() == ErrorCodes.No_Matching_Fiets_Found)
                     {
                         return DetermineAny(filiaal);
                     }
-                    else return Task.FromResult(Result<Fiets, ErrorCodeSet>.Fail(errors));
+                    else return Task.FromResult(Result<Fiets, ErrorCodeList>.Fail(errors));
                 });
         }
 
-        async Task<Result<Fiets, ErrorCodeSet>> DetermineAny(FiliaalId filiaal)
+        async Task<Result<Fiets, ErrorCodeList>> DetermineAny(FiliaalId filiaal)
         {
             return await anyMatchingFietsResolver.GetFiets(filiaal, min, max);
         }
     }
 
-    private async Task<Result<Fiets, ErrorCodeSet>> DetermineInBudget(FiliaalId filiaal, FrameMaat min, FrameMaat max, DetermineBestFietsForKlantQuery query)
+    private async Task<Result<Fiets, ErrorCodeList>> DetermineInBudget(FiliaalId filiaal, FrameMaat min, FrameMaat max, DetermineBestFietsForKlantQuery query)
     {
         if (query.PreferredFietsType != null)
         {
             var preferredResult = await fietsInBudgetResolver.GetFiets(filiaal, query.Klant.Budget, min, max, query.PreferredFietsType);
 
             return await preferredResult.Switch(
-                onSuccess: f => Task.FromResult(Result<Fiets, ErrorCodeSet>.Succeed(f)),
+                onSuccess: f => Task.FromResult(Result<Fiets, ErrorCodeList>.Succeed(f)),
                 onFailure: errors =>
                 {
                     if (errors.Count == 1 && errors.Single() == ErrorCodes.No_Matching_Fiets_Found)
                     {
                         return DetermineWithoutPreference(filiaal, query);
                     }
-                    return Task.FromResult(Result<Fiets, ErrorCodeSet>.Fail(errors));
+                    return Task.FromResult(Result<Fiets, ErrorCodeList>.Fail(errors));
                 });
         }
 
         return await DetermineWithoutPreference(filiaal, query);
 
-        async Task<Result<Fiets, ErrorCodeSet>> DetermineWithoutPreference(FiliaalId filiaal, DetermineBestFietsForKlantQuery query)
+        async Task<Result<Fiets, ErrorCodeList>> DetermineWithoutPreference(FiliaalId filiaal, DetermineBestFietsForKlantQuery query)
         {
             return await fietsInBudgetResolver.GetFiets(filiaal, query.Klant.Budget, min, max);
         }
     }
 
-    private async Task<Result<FiliaalId, ErrorCodeSet>> DetermineNearestFiliaal(FiliaalList filiaalList, string klantLocation)
+    private async Task<Result<FiliaalId, ErrorCodeList>> DetermineNearestFiliaal(FiliaalList filiaalList, string klantLocation)
     {
         List<(FiliaalId filiaal, int distance)> distances = [];
 
-        ErrorCodeSet errors = [];
+        ErrorCodeList errors = [];
 
         foreach (var filiaal in filiaalList.FiliaalListEntries)
         {
@@ -126,7 +126,7 @@ internal class DetermineBestFietsForKlantService : IDetermineBestFietsForKlantSe
 
             if (errors.Count > 0)
             {
-                return Result<FiliaalId, ErrorCodeSet>.Fail(errors);
+                return Result<FiliaalId, ErrorCodeList>.Fail(errors);
             }
         }
 
@@ -134,6 +134,6 @@ internal class DetermineBestFietsForKlantService : IDetermineBestFietsForKlantSe
             .OrderByDescending(d => d.distance)
             .FirstOrDefault();
 
-        return Result<FiliaalId, ErrorCodeSet>.Succeed(closest.filiaal);
+        return Result<FiliaalId, ErrorCodeList>.Succeed(closest.filiaal);
     }
 }

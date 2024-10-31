@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Fietsenwinkel.Domain.Errors;
 
-public class ErrorCodeSet : IList<ErrorCodes>, ICombinable<ErrorCodeSet>
+public class ErrorCodeList : IList<ErrorCodes>, ICombinable<ErrorCodeList>
 {
     public List<ErrorCodes> Errors { get; } = [];
 
@@ -15,10 +15,10 @@ public class ErrorCodeSet : IList<ErrorCodes>, ICombinable<ErrorCodeSet>
         set => ((IList<ErrorCodes>)Errors)[index] = value;
     }
 
-    public ErrorCodeSet()
+    public ErrorCodeList()
     { }
 
-    public ErrorCodeSet(IEnumerable<ErrorCodes> errors)
+    public ErrorCodeList(IEnumerable<ErrorCodes> errors)
     {
         Errors = errors.ToList();
     }
@@ -62,6 +62,6 @@ public class ErrorCodeSet : IList<ErrorCodes>, ICombinable<ErrorCodeSet>
     IEnumerator IEnumerable.GetEnumerator() =>
         ((IEnumerable)Errors).GetEnumerator();
 
-    public ErrorCodeSet Combine(ErrorCodeSet combinable) =>
+    public ErrorCodeList Combine(ErrorCodeList combinable) =>
         new(Errors.Concat(combinable.Errors));
 }

@@ -12,16 +12,16 @@ public class AantalWielen : IDomainValueType<int, AantalWielen>
         Value = value;
     }
 
-    private static ErrorResult<ErrorCodeSet> CheckValidity(int value) =>
+    private static ErrorResult<ErrorCodeList> CheckValidity(int value) =>
         value switch
         {
-            < 1 => ErrorResult<ErrorCodeSet>.Fail([ErrorCodes.Fiets_Has_No_Wheels]),
-            > 3 => ErrorResult<ErrorCodeSet>.Fail([ErrorCodes.Fiets_Has_Too_Many_Wheels]),
-            _ => ErrorResult<ErrorCodeSet>.Succeed()
+            < 1 => ErrorResult<ErrorCodeList>.Fail([ErrorCodes.Fiets_Has_No_Wheels]),
+            > 3 => ErrorResult<ErrorCodeList>.Fail([ErrorCodes.Fiets_Has_Too_Many_Wheels]),
+            _ => ErrorResult<ErrorCodeList>.Succeed()
         };
 
-    public static Result<AantalWielen, ErrorCodeSet> Create(int value) =>
+    public static Result<AantalWielen, ErrorCodeList> Create(int value) =>
         CheckValidity(value).Switch(
-            onSuccess: () => Result<AantalWielen, ErrorCodeSet>.Succeed(new AantalWielen(value)),
-            onFailure: Result<AantalWielen, ErrorCodeSet>.Fail);
+            onSuccess: () => Result<AantalWielen, ErrorCodeList>.Succeed(new AantalWielen(value)),
+            onFailure: Result<AantalWielen, ErrorCodeList>.Fail);
 }

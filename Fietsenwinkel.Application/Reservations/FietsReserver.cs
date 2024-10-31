@@ -8,9 +8,9 @@ namespace Fietsenwinkel.Application.Reservations;
 
 internal class FietsReserver : IFietsReserver
 {
-    public async Task<ErrorResult<ErrorCodeSet>> ReserveFietsForUser(Fiets fiets, Klant klant)
+    public async Task<ErrorResult<ErrorCodeList>> ReserveFietsForUser(Fiets fiets, Klant klant)
     {
-        return await Task.FromResult(ErrorResult<ErrorCodeSet>.Succeed());
+        return await Task.FromResult(ErrorResult<ErrorCodeList>.Succeed());
 
         // niet feitelijk geimplementeerd, maar deze unit zou bijvoorbeeld een fanout kunnen doen naar
         // plugins die messages publishen, email versturen, etc. Taken waar de usecase niet echt om

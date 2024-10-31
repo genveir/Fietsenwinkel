@@ -17,13 +17,13 @@ public class Money : IDomainValueType<int, Money>
         Value = value;
     }
 
-    private static ErrorResult<ErrorCodeSet> CheckValidity(int value) =>
+    private static ErrorResult<ErrorCodeList> CheckValidity(int value) =>
         value == 0
-            ? ErrorResult<ErrorCodeSet>.Fail([ErrorCodes.Money_Value_Not_Set])
-            : ErrorResult<ErrorCodeSet>.Succeed();
+            ? ErrorResult<ErrorCodeList>.Fail([ErrorCodes.Money_Value_Not_Set])
+            : ErrorResult<ErrorCodeList>.Succeed();
 
-    public static Result<Money, ErrorCodeSet> Create(int value) =>
+    public static Result<Money, ErrorCodeList> Create(int value) =>
         CheckValidity(value).Switch(
-            onSuccess: () => Result<Money, ErrorCodeSet>.Succeed(new Money(value)),
-            onFailure: Result<Money, ErrorCodeSet>.Fail);
+            onSuccess: () => Result<Money, ErrorCodeList>.Succeed(new Money(value)),
+            onFailure: Result<Money, ErrorCodeList>.Fail);
 }

@@ -14,13 +14,13 @@ public class FiliaalName : IDomainValueType<string, FiliaalName>
         Value = value;
     }
 
-    private static ErrorResult<ErrorCodeSet> CheckValidity(string value) =>
+    private static ErrorResult<ErrorCodeList> CheckValidity(string value) =>
         string.IsNullOrWhiteSpace(value)
-            ? ErrorResult<ErrorCodeSet>.Fail([ErrorCodes.FiliaalName_Value_NotSet])
-            : ErrorResult<ErrorCodeSet>.Succeed();
+            ? ErrorResult<ErrorCodeList>.Fail([ErrorCodes.FiliaalName_Value_NotSet])
+            : ErrorResult<ErrorCodeList>.Succeed();
 
-    public static Result<FiliaalName, ErrorCodeSet> Create(string value) =>
+    public static Result<FiliaalName, ErrorCodeList> Create(string value) =>
         CheckValidity(value).Switch(
-            onSuccess: () => Result<FiliaalName, ErrorCodeSet>.Succeed(new FiliaalName(value)),
-            onFailure: Result<FiliaalName, ErrorCodeSet>.Fail);
+            onSuccess: () => Result<FiliaalName, ErrorCodeList>.Succeed(new FiliaalName(value)),
+            onFailure: Result<FiliaalName, ErrorCodeList>.Fail);
 }

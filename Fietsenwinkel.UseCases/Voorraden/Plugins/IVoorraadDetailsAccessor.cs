@@ -10,5 +10,5 @@ public record VoorraadDetailsAccessorQuery(FiliaalId FiliaalId);
 
 public interface IVoorraadDetailsAccessor
 {
-    Task<Result<VoorraadDetails, ErrorCodeSet>> GetVoorraadDetails(VoorraadDetailsAccessorQuery query);
+    Task<Result<VoorraadDetails, ErrorCodeList>> GetVoorraadDetails(VoorraadDetailsAccessorQuery query);
 }

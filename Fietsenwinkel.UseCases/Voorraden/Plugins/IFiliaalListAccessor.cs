@@ -7,5 +7,5 @@ namespace Fietsenwinkel.UseCases.Voorraden.Plugins;
 
 public interface IFiliaalListAccessor
 {
-    Task<Result<FiliaalList, ErrorCodeSet>> ListFilialen();
+    Task<Result<FiliaalList, ErrorCodeList>> ListFilialen();
 }

@@ -7,7 +7,7 @@ namespace Fietsenwinkel.Api;
 
 public class EndpointBase : ControllerBase
 {
-    protected IActionResult FormatError(ErrorCodeSet errorSet)
+    protected IActionResult FormatError(ErrorCodeList errorSet)
     {
         var errors = errorSet.Errors;
 
@@ -22,6 +22,6 @@ public class EndpointBase : ControllerBase
         };
     }
 
-    protected Task<IActionResult> FormatErrorAsync(ErrorCodeSet errorSet) =>
+    protected Task<IActionResult> FormatErrorAsync(ErrorCodeList errorSet) =>
         Task.FromResult(FormatError(errorSet));
 }

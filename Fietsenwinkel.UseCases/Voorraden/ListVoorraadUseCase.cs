@@ -11,7 +11,7 @@ public record ListVoorraadQuery(FiliaalId Filiaal, string? NameFilter);
 
 public interface IListVoorraadUseCase
 {
-    Task<Result<VoorraadList, ErrorCodeSet>> GetVoorraad(ListVoorraadQuery query);
+    Task<Result<VoorraadList, ErrorCodeList>> GetVoorraad(ListVoorraadQuery query);
 }
 
 internal class ListVoorraadUseCase : IListVoorraadUseCase
@@ -23,7 +23,7 @@ internal class ListVoorraadUseCase : IListVoorraadUseCase
         this.voorraadListAccessor = voorraadListAccessor;
     }
 
-    public async Task<Result<VoorraadList, ErrorCodeSet>> GetVoorraad(ListVoorraadQuery query)
+    public async Task<Result<VoorraadList, ErrorCodeList>> GetVoorraad(ListVoorraadQuery query)
     {
         var accessorQuery = new VoorraadListAccessorQuery(query.Filiaal, query.NameFilter);
 

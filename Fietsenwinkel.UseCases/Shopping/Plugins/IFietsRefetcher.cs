@@ -7,5 +7,5 @@ namespace Fietsenwinkel.UseCases.Shopping.Plugins;
 
 public interface IFietsRefetcher
 {
-    Task<Result<Fiets, ErrorCodeSet>> RefetchFiets(Fiets fiets);
+    Task<Result<Fiets, ErrorCodeList>> RefetchFiets(Fiets fiets);
 }

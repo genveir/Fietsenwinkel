@@ -16,7 +16,7 @@ namespace Fietsenwinkel.Database.Fietsen;
 
 internal class FietsenRepository : IVoorraadDetailsAccessor, IFietsRefetcher, IFietsInBudgetResolver, IAnyMatchingFietsResolver
 {
-    public async Task<Result<VoorraadDetails, ErrorCodeSet>> GetVoorraadDetails(VoorraadDetailsAccessorQuery query)
+    public async Task<Result<VoorraadDetails, ErrorCodeList>> GetVoorraadDetails(VoorraadDetailsAccessorQuery query)
     {
         using var db = new FietsenwinkelContext();
 
@@ -28,7 +28,7 @@ internal class FietsenRepository : IVoorraadDetailsAccessor, IFietsRefetcher, IF
         return VoorraadDetailsMapper.Map(query.FiliaalId, result);
     }
 
-    public async Task<Result<Fiets, ErrorCodeSet>> RefetchFiets(Fiets fiets)
+    public async Task<Result<Fiets, ErrorCodeList>> RefetchFiets(Fiets fiets)
     {
         using var db = new FietsenwinkelContext();
 
@@ -43,22 +43,22 @@ internal class FietsenRepository : IVoorraadDetailsAccessor, IFietsRefetcher, IF
 
         if (result == null)
         {
-            return Result<Fiets, ErrorCodeSet>.Fail([ErrorCodes.Fiets_Cannot_Be_Refetched]);
+            return Result<Fiets, ErrorCodeList>.Fail([ErrorCodes.Fiets_Cannot_Be_Refetched]);
         }
 
         return FietsMapper.Map(result);
     }
 
-    public async Task<Result<Fiets, ErrorCodeSet>> GetFiets(FiliaalId filiaal, Money budget, FrameMaat min, FrameMaat max, FietsType type) =>
+    public async Task<Result<Fiets, ErrorCodeList>> GetFiets(FiliaalId filiaal, Money budget, FrameMaat min, FrameMaat max, FietsType type) =>
         await GetFietsQuery(filiaal, min, max, budget, type);
 
-    public async Task<Result<Fiets, ErrorCodeSet>> GetFiets(FiliaalId filiaal, FrameMaat min, FrameMaat max) =>
+    public async Task<Result<Fiets, ErrorCodeList>> GetFiets(FiliaalId filiaal, FrameMaat min, FrameMaat max) =>
         await GetFietsQuery(filiaal, min, max, budget: null, fietsType: null);
 
-    public async Task<Result<Fiets, ErrorCodeSet>> GetFiets(FiliaalId filiaal, Money budget, FrameMaat min, FrameMaat max) =>
+    public async Task<Result<Fiets, ErrorCodeList>> GetFiets(FiliaalId filiaal, Money budget, FrameMaat min, FrameMaat max) =>
         await GetFietsQuery(filiaal, min, max, budget, fietsType: null);
 
-    private static async Task<Result<Fiets, ErrorCodeSet>> GetFietsQuery(FiliaalId filiaal, FrameMaat min, FrameMaat max,
+    private static async Task<Result<Fiets, ErrorCodeList>> GetFietsQuery(FiliaalId filiaal, FrameMaat min, FrameMaat max,
         Money? budget, FietsType? fietsType)
     {
         using var db = new FietsenwinkelContext();
@@ -85,7 +85,7 @@ internal class FietsenRepository : IVoorraadDetailsAccessor, IFietsRefetcher, IF
 
         if (result == null)
         {
-            return Result<Fiets, ErrorCodeSet>.Fail([ErrorCodes.No_Matching_Fiets_Found]);
+            return Result<Fiets, ErrorCodeList>.Fail([ErrorCodes.No_Matching_Fiets_Found]);
         }
 
         return FietsMapper.Map(result);

@@ -14,16 +14,16 @@ internal static class VoorraadListMapper
     // dus nu heeft een filiaal een collectie van voorraden) moet de mapper om kunnen gaan met meerdere voorraden. Dit is
     // een database concern, in het domein kan het namelijk niet.
 
-    public static Result<VoorraadList, ErrorCodeSet> Map(VoorraadModel[] voorraadModels)
+    public static Result<VoorraadList, ErrorCodeList> Map(VoorraadModel[] voorraadModels)
     {
         if (voorraadModels.Length == 0)
         {
-            return Result<VoorraadList, ErrorCodeSet>.Fail([ErrorCodes.Voorraad_Not_Found]);
+            return Result<VoorraadList, ErrorCodeList>.Fail([ErrorCodes.Voorraad_Not_Found]);
         }
 
         if (!voorraadModels.All(vm => vm.FiliaalId == voorraadModels.First().FiliaalId))
         {
-            return Result<VoorraadList, ErrorCodeSet>.Fail([ErrorCodes.Legacy_Voorraden_Have_Different_FiliaalIds]);
+            return Result<VoorraadList, ErrorCodeList>.Fail([ErrorCodes.Legacy_Voorraden_Have_Different_FiliaalIds]);
         }
 
         return Result.Combine(
@@ -33,12 +33,12 @@ internal static class VoorraadListMapper
             {
                 var (filiaalId, entries) = vt;
 
-                return Result<VoorraadList, ErrorCodeSet>.Succeed(new(filiaalId, entries));
+                return Result<VoorraadList, ErrorCodeList>.Succeed(new(filiaalId, entries));
             },
-            onFailure: Result<VoorraadList, ErrorCodeSet>.Fail);
+            onFailure: Result<VoorraadList, ErrorCodeList>.Fail);
     }
 
-    private static Result<VoorraadListEntry[], ErrorCodeSet> MapEntries(VoorraadModel[] voorraadModels)
+    private static Result<VoorraadListEntry[], ErrorCodeList> MapEntries(VoorraadModel[] voorraadModels)
     {
         var groupedSupply = voorraadModels
             .SelectMany(vm => vm.Fietsen)
@@ -46,7 +46,7 @@ internal static class VoorraadListMapper
 
         var result = new VoorraadListEntry[groupedSupply.Count()];
 
-        ErrorCodeSet errors = [];
+        ErrorCodeList errors = [];
 
         int index = 0;
         foreach (var group in groupedSupply)
@@ -62,7 +62,7 @@ internal static class VoorraadListMapper
         }
 
         return errors.Count == 0 ?
-            Result<VoorraadListEntry[], ErrorCodeSet>.Succeed(result) :
-            Result<VoorraadListEntry[], ErrorCodeSet>.Fail(errors);
+            Result<VoorraadListEntry[], ErrorCodeList>.Succeed(result) :
+            Result<VoorraadListEntry[], ErrorCodeList>.Fail(errors);
     }
 }

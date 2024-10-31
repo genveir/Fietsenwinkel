@@ -12,7 +12,7 @@ namespace Fietsenwinkel.Database.Filialen;
 
 internal class FilialenRepository : IFiliaalListAccessor, IFiliaalExistenceChecker, IShoppingFiliaalListAccessor
 {
-    public async Task<Result<FiliaalList, ErrorCodeSet>> ListFilialen()
+    public async Task<Result<FiliaalList, ErrorCodeList>> ListFilialen()
     {
         using var db = new FietsenwinkelContext();
 

@@ -9,7 +9,7 @@ namespace Fietsenwinkel.Domain.Shopping.Plugins;
 
 public interface IFietsInBudgetResolver
 {
-    Task<Result<Fiets, ErrorCodeSet>> GetFiets(FiliaalId filiaal, Money budget, FrameMaat min, FrameMaat max, FietsType type);
+    Task<Result<Fiets, ErrorCodeList>> GetFiets(FiliaalId filiaal, Money budget, FrameMaat min, FrameMaat max, FietsType type);
 
-    Task<Result<Fiets, ErrorCodeSet>> GetFiets(FiliaalId filiaal, Money budget, FrameMaat min, FrameMaat max);
+    Task<Result<Fiets, ErrorCodeList>> GetFiets(FiliaalId filiaal, Money budget, FrameMaat min, FrameMaat max);
 }

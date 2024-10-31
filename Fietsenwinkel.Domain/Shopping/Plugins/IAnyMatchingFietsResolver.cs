@@ -8,5 +8,5 @@ namespace Fietsenwinkel.Domain.Shopping.Plugins;
 
 public interface IAnyMatchingFietsResolver
 {
-    Task<Result<Fiets, ErrorCodeSet>> GetFiets(FiliaalId filiaal, FrameMaat min, FrameMaat max);
+    Task<Result<Fiets, ErrorCodeList>> GetFiets(FiliaalId filiaal, FrameMaat min, FrameMaat max);
 }

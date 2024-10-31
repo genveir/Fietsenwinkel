@@ -12,18 +12,18 @@ public class FiliaalId : IDomainValueType<int, FiliaalId>
         Value = value;
     }
 
-    private static ErrorResult<ErrorCodeSet> CheckValidity(int value) =>
+    private static ErrorResult<ErrorCodeList> CheckValidity(int value) =>
         value == 0
-            ? ErrorResult<ErrorCodeSet>.Fail([ErrorCodes.FiliaalId_Value_Not_Set])
-            : ErrorResult<ErrorCodeSet>.Succeed();
+            ? ErrorResult<ErrorCodeList>.Fail([ErrorCodes.FiliaalId_Value_Not_Set])
+            : ErrorResult<ErrorCodeList>.Succeed();
 
-    public static Result<FiliaalId, ErrorCodeSet> Create(int value) =>
+    public static Result<FiliaalId, ErrorCodeList> Create(int value) =>
         CheckValidity(value).Switch(
-            onSuccess: () => Result<FiliaalId, ErrorCodeSet>.Succeed(new FiliaalId(value)),
-            onFailure: Result<FiliaalId, ErrorCodeSet>.Fail);
+            onSuccess: () => Result<FiliaalId, ErrorCodeList>.Succeed(new FiliaalId(value)),
+            onFailure: Result<FiliaalId, ErrorCodeList>.Fail);
 
-    public static Result<FiliaalId, ErrorCodeSet> Parse(string value) =>
+    public static Result<FiliaalId, ErrorCodeList> Parse(string value) =>
         int.TryParse(value, out var intValue) ?
             Create(intValue) :
-            Result<FiliaalId, ErrorCodeSet>.Fail([ErrorCodes.FiliaalId_Invalid_Format]);
+            Result<FiliaalId, ErrorCodeList>.Fail([ErrorCodes.FiliaalId_Invalid_Format]);
 }

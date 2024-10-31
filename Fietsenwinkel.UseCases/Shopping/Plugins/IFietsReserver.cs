@@ -8,5 +8,5 @@ namespace Fietsenwinkel.UseCases.Shopping.Plugins;
 
 public interface IFietsReserver
 {
-    Task<ErrorResult<ErrorCodeSet>> ReserveFietsForUser(Fiets fiets, Klant klant);
+    Task<ErrorResult<ErrorCodeList>> ReserveFietsForUser(Fiets fiets, Klant klant);
 }

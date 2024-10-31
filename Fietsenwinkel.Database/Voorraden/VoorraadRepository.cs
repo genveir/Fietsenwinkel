@@ -11,7 +11,7 @@ namespace Fietsenwinkel.Database.Voorraden;
 
 internal class VoorraadRepository : IVoorraadListAccessor
 {
-    public async Task<Result<VoorraadList, ErrorCodeSet>> ListVoorraad(VoorraadListAccessorQuery query)
+    public async Task<Result<VoorraadList, ErrorCodeList>> ListVoorraad(VoorraadListAccessorQuery query)
     {
         using var db = new FietsenwinkelContext();
 

@@ -10,7 +10,7 @@ namespace Fietsenwinkel.UseCases.Voorraden;
 
 public interface IGetVoorraadDetailsUseCase
 {
-    Task<Result<VoorraadDetails, ErrorCodeSet>> GetDetails(FiliaalId filiaalId);
+    Task<Result<VoorraadDetails, ErrorCodeList>> GetDetails(FiliaalId filiaalId);
 }
 
 internal class GetVoorraadDetailsUseCase : IGetVoorraadDetailsUseCase
@@ -24,13 +24,13 @@ internal class GetVoorraadDetailsUseCase : IGetVoorraadDetailsUseCase
         this.filiaalExistenceChecker = filiaalExistenceChecker;
     }
 
-    public async Task<Result<VoorraadDetails, ErrorCodeSet>> GetDetails(FiliaalId filiaalId)
+    public async Task<Result<VoorraadDetails, ErrorCodeList>> GetDetails(FiliaalId filiaalId)
     {
         var filiaalExists = await filiaalExistenceChecker.Exists(filiaalId);
 
         if (!filiaalExists)
         {
-            return Result<VoorraadDetails, ErrorCodeSet>.Fail([ErrorCodes.Filiaal_Not_Found]);
+            return Result<VoorraadDetails, ErrorCodeList>.Fail([ErrorCodes.Filiaal_Not_Found]);
         }
 
         var query = new VoorraadDetailsAccessorQuery(filiaalId);
