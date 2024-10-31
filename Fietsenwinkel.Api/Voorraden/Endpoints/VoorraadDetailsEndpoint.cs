@@ -18,7 +18,7 @@ public class VoorraadDetailsEndpoint : EndpointBase
     [HttpGet("shops/{shopId}/stock")]
     public async Task<IActionResult> GetDetails(string shopId)
     {
-        return await FiliaalId.Parse(shopId).Switch(
+        return await FiliaalId.Parse(shopId).Map(
             onSuccess: GetDetails,
             onFailure: FormatErrorAsync);
 
@@ -26,7 +26,7 @@ public class VoorraadDetailsEndpoint : EndpointBase
         {
             var result = await getVoorraadDetailsUseCase.GetDetails(filiaalId);
 
-            return result.Switch(
+            return result.Map(
                 onSuccess: voorraad => Ok(VoorraadDetailsMapper.Map(voorraad)),
                 onFailure: FormatError);
         }

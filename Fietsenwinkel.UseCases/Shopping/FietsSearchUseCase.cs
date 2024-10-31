@@ -34,7 +34,7 @@ internal class FietsSearchUseCase : IFietsSearchUseCase
 
         var bestFietsResult = await determineBestFietsForKlantService.DetermineBestFiets(bestFietsQuery);
 
-        return await bestFietsResult.Switch(
+        return await bestFietsResult.Map(
             onSuccess: ReserveFiets,
             onFailure: errors => Task.FromResult(Result<Fiets, ErrorCodeList>.Fail(errors)));
 
@@ -43,7 +43,7 @@ internal class FietsSearchUseCase : IFietsSearchUseCase
             var reserveResult = await fietsReserver.ReserveFietsForUser(bestFiets, query.Klant);
 
             // om de een of andere reden moeten we de fiets opnieuw fetchen na het reserveren
-            return await reserveResult.Switch(
+            return await reserveResult.Map(
                 onSuccess: () => fietsRefetcher.RefetchFiets(bestFiets),
                 onFailure: errors => Task.FromResult(Result<Fiets, ErrorCodeList>.Fail(errors)));
         }

@@ -11,7 +11,7 @@ namespace Fietsenwinkel.Database.Mappers;
 internal static class VoorraadDetailsMapper
 {
     public static Result<VoorraadDetails, ErrorCodeList> Map(FiliaalId filiaalId, FietsModel[] fietsen) =>
-        MapFietsen(fietsen).Switch(
+        MapFietsen(fietsen).Map(
             onSuccess: mappedFietsen => Result<VoorraadDetails, ErrorCodeList>.Succeed(new(filiaalId, mappedFietsen)),
             onFailure: Result<VoorraadDetails, ErrorCodeList>.Fail);
 
@@ -22,7 +22,7 @@ internal static class VoorraadDetailsMapper
 
         foreach (var fiets in fietsen)
         {
-            FietsMapper.Map(fiets).Switch(
+            FietsMapper.Map(fiets).Act(
                 onSuccess: mappedFietsen.Add,
                 onFailure: errors.AddRange);
         }

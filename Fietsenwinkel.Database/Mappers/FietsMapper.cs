@@ -13,7 +13,7 @@ internal class FietsMapper
             AantalWielen.Create(fiets.AantalWielen),
             FietsType.Create(fiets.FietsType.TypeName),
             FrameMaat.Create(fiets.FrameMaat),
-            Money.Create(fiets.Price)).Switch(
+            Money.Create(fiets.Price)).Map(
                 onSuccess: MapFiets,
                 onFailure: Result<Fiets, ErrorCodeList>.Fail);
 

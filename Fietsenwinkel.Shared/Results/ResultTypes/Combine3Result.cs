@@ -10,7 +10,7 @@ public abstract class Result<TValueType1, TValueType2, TValueType3, TErrorType>
     public static Result<TValueType1, TValueType2, TValueType3, TErrorType> Fail(TErrorType error) =>
         new FailureResult<TValueType1, TValueType2, TValueType3, TErrorType>(error);
 
-    public void Switch(
+    public void Act(
         Action<TValueType1, TValueType2> onSuccess,
         Action<TErrorType> onFailure)
     {
@@ -26,7 +26,7 @@ public abstract class Result<TValueType1, TValueType2, TValueType3, TErrorType>
         }
     }
 
-    public TReturnType Switch<TReturnType>(
+    public TReturnType Map<TReturnType>(
         Func<TValueType1, TValueType2, TValueType3, TReturnType> onSuccess,
         Func<TErrorType, TReturnType> onFailure)
     {

@@ -6,7 +6,7 @@ public static partial class Result
     Result<T1, TErrorType> r1,
     Result<T2, T3, TErrorType> r23)
     where TErrorType : ICombinable<TErrorType> =>
-    r23.Switch(
+    r23.Map(
         onSuccess: (s2, s3) => Combine(
             r1,
             Result<T2, TErrorType>.Succeed(s2),
@@ -20,7 +20,7 @@ public static partial class Result
         Result<T1, T2, TErrorType> r12,
         Result<T3, TErrorType> r3)
         where TErrorType : ICombinable<TErrorType> =>
-        r12.Switch(
+        r12.Map(
             onSuccess: (s1, s2) => Combine(
                 Result<T1, TErrorType>.Succeed(s1),
                 Result<T2, TErrorType>.Succeed(s2),
@@ -35,7 +35,7 @@ public static partial class Result
         Result<T2, TErrorType> r2,
         Result<T3, T4, TErrorType> r34)
         where TErrorType : ICombinable<TErrorType> =>
-        r34.Switch(
+        r34.Map(
             onSuccess: (s3, s4) => Combine(
                 r1,
                 r2,
@@ -52,7 +52,7 @@ public static partial class Result
         Result<T2, T3, TErrorType> r23,
         Result<T4, TErrorType> r4)
         where TErrorType : ICombinable<TErrorType> =>
-        r23.Switch(
+        r23.Map(
             onSuccess: (s2, s3) => Combine(
                 r1,
                 Result<T2, TErrorType>.Succeed(s2),
@@ -69,7 +69,7 @@ public static partial class Result
         Result<T3, TErrorType> r3,
         Result<T4, TErrorType> r4)
         where TErrorType : ICombinable<TErrorType> =>
-        r12.Switch(
+        r12.Map(
             onSuccess: (s1, s2) => Combine(
                 Result<T1, TErrorType>.Succeed(s1),
                 Result<T2, TErrorType>.Succeed(s2),
@@ -85,11 +85,11 @@ public static partial class Result
         Result<T1, T2, TErrorType> r12,
         Result<T3, T4, TErrorType> r34)
         where TErrorType : ICombinable<TErrorType> =>
-        r12.Switch(
-            onSuccess: (s1, s2) => r34.Switch(
+        r12.Map(
+            onSuccess: (s1, s2) => r34.Map(
                 onSuccess: (s3, s4) => Result<T1, T2, T3, T4, TErrorType>.Succeed(s1, s2, s3, s4),
                 onFailure: Result<T1, T2, T3, T4, TErrorType>.Fail),
-            onFailure: e12 => r34.Switch(
+            onFailure: e12 => r34.Map(
                 onSuccess: (_, _) => Result<T1, T2, T3, T4, TErrorType>.Fail(e12),
                 onFailure: e34 => Result<T1, T2, T3, T4, TErrorType>.Fail(e12.Combine(e34))));
 }

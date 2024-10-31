@@ -10,7 +10,7 @@ public class Money : IDomainValueType<int, Money>
 
     private Money(int value)
     {
-        CheckValidity(value).Switch(
+        CheckValidity(value).Act(
             onSuccess: () => { },
             onFailure: _ => throw new ArgumentException("Invalid value for Money", nameof(value)));
 
@@ -23,7 +23,7 @@ public class Money : IDomainValueType<int, Money>
             : ErrorResult<ErrorCodeList>.Succeed();
 
     public static Result<Money, ErrorCodeList> Create(int value) =>
-        CheckValidity(value).Switch(
+        CheckValidity(value).Map(
             onSuccess: () => Result<Money, ErrorCodeList>.Succeed(new Money(value)),
             onFailure: Result<Money, ErrorCodeList>.Fail);
 }

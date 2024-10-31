@@ -19,7 +19,7 @@ public static class FietsSearchMapper
 
         return Result.Combine(
             MapKlant(model),
-            MapFietsType(model)).Switch(
+            MapFietsType(model)).Map(
             onSuccess: (klant, fietsType) =>
             {
                 var fietsSearchQuery = new FietsSearchQuery(klant, fietsType);
@@ -57,7 +57,7 @@ public static class FietsSearchMapper
         }
         else
         {
-            return Money.Create(model.UserBudget.Value).Switch(
+            return Money.Create(model.UserBudget.Value).Map(
                 onSuccess: m => Result<Klant, ErrorCodeList>.Succeed(new Klant(model.UserHeight!.Value, model.UserLocation!, m)),
                 onFailure: e => Result<Klant, ErrorCodeList>.Fail(errors.Combine(e)));
         }
@@ -69,7 +69,7 @@ public static class FietsSearchMapper
     {
         if (model.FietsTypePreference != null)
         {
-            return FietsType.Create(model.FietsTypePreference).Switch(
+            return FietsType.Create(model.FietsTypePreference).Map(
                 onSuccess: Result<FietsType?, ErrorCodeList>.Succeed,
                 onFailure: Result<FietsType?, ErrorCodeList>.Fail);
         }

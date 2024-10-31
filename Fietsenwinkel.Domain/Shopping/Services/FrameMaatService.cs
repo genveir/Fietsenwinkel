@@ -11,7 +11,7 @@ internal static class FrameMaatService
         Result.Combine(
             DetermineMin(height),
             DetermineMax(height))
-                .Switch(
+                .Map(
                     onSuccess: (min, max) => (min, max),
                     onFailure: _ => throw new NotImplementedException("Dit zou niet moeten kunnen"));
 

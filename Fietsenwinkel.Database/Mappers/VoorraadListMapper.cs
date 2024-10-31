@@ -28,7 +28,7 @@ internal static class VoorraadListMapper
 
         return Result.Combine(
             FiliaalId.Create(voorraadModels.First().FiliaalId),
-            MapEntries(voorraadModels)).Switch(
+            MapEntries(voorraadModels)).Map(
                 onSuccess: (filiaalId, entries) => Result<VoorraadList, ErrorCodeList>.Succeed(new(filiaalId, entries)),
                 onFailure: Result<VoorraadList, ErrorCodeList>.Fail);
     }
@@ -49,7 +49,7 @@ internal static class VoorraadListMapper
             var fietsTypeModel = group.Key;
             var number = group.Count();
 
-            FietsType.Create(fietsTypeModel.TypeName).Switch(
+            FietsType.Create(fietsTypeModel.TypeName).Act(
                 onSuccess: ft => result[index] = new VoorraadListEntry(ft, number),
                 onFailure: errors.AddRange);
 

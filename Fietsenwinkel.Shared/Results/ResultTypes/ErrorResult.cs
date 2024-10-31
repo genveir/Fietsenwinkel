@@ -8,7 +8,7 @@ public abstract class ErrorResult<TErrorType>
 
     public static ErrorResult<TErrorType> Fail(TErrorType value) => new ErrorFailureResult<TErrorType>(value);
 
-    public void Switch(
+    public void Act(
         Action onSuccess,
         Action<TErrorType> onFailure)
     {
@@ -17,13 +17,14 @@ public abstract class ErrorResult<TErrorType>
             case ErrorSuccessResult<TErrorType>:
                 onSuccess();
                 break;
+
             case ErrorFailureResult<TErrorType> failure:
                 onFailure(failure.Error);
                 break;
         }
     }
 
-    public TReturnType Switch<TReturnType>(
+    public TReturnType Map<TReturnType>(
         Func<TReturnType> onSuccess,
         Func<TErrorType, TReturnType> onFailure)
     {

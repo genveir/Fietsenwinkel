@@ -39,7 +39,7 @@ internal class DetermineBestFietsForKlantService : IDetermineBestFietsForKlantSe
 
         var filiaalListResult = await filiaalListAccessor.ListFilialen();
 
-        return await filiaalListResult.Switch(
+        return await filiaalListResult.Map(
             onSuccess: DetermineClosest,
             onFailure: errors => Task.FromResult(Result<Fiets, ErrorCodeList>.Fail(errors)));
 
@@ -47,7 +47,7 @@ internal class DetermineBestFietsForKlantService : IDetermineBestFietsForKlantSe
         {
             var closestResult = await DetermineNearestFiliaal(filiaalList, query.Klant.Location);
 
-            return await closestResult.Switch(
+            return await closestResult.Map(
                 onSuccess: DetermineInBudget,
                 onFailure: errors => Task.FromResult(Result<Fiets, ErrorCodeList>.Fail(errors)));
         }
@@ -56,7 +56,7 @@ internal class DetermineBestFietsForKlantService : IDetermineBestFietsForKlantSe
         {
             var budgetResult = await this.DetermineInBudget(filiaal, min, max, query);
 
-            return await budgetResult.Switch(
+            return await budgetResult.Map(
                 onSuccess: fiets => Task.FromResult(Result<Fiets, ErrorCodeList>.Succeed(fiets)),
                 onFailure: errors =>
                 {
@@ -80,7 +80,7 @@ internal class DetermineBestFietsForKlantService : IDetermineBestFietsForKlantSe
         {
             var preferredResult = await fietsInBudgetResolver.GetFiets(filiaal, query.Klant.Budget, min, max, query.PreferredFietsType);
 
-            return await preferredResult.Switch(
+            return await preferredResult.Map(
                 onSuccess: f => Task.FromResult(Result<Fiets, ErrorCodeList>.Succeed(f)),
                 onFailure: errors =>
                 {
@@ -110,7 +110,7 @@ internal class DetermineBestFietsForKlantService : IDetermineBestFietsForKlantSe
         {
             var distanceResult = await distanceResolver.ResolveDistanceBetween(klantLocation, filiaal.Name);
 
-            distanceResult.Switch(
+            distanceResult.Act(
                 onSuccess: d => distances.Add((filiaal.Id, d)),
                 onFailure: e =>
                 {

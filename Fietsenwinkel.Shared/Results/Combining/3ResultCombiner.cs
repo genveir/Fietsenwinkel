@@ -6,7 +6,7 @@ public static partial class Result
         Result<T1, TErrorType> r1,
         Result<T2, T3, T4, TErrorType> r234)
         where TErrorType : ICombinable<TErrorType> =>
-        r234.Switch(
+        r234.Map(
             onSuccess: (s2, s3, s4) => Combine(
                 r1,
                 Result<T2, TErrorType>.Succeed(s2),
@@ -22,7 +22,7 @@ public static partial class Result
         Result<T1, T2, T3, TErrorType> r123,
         Result<T4, TErrorType> r4)
         where TErrorType : ICombinable<TErrorType> =>
-        r123.Switch(
+        r123.Map(
             onSuccess: (s1, s2, s3) => Combine(
                 Result<T1, TErrorType>.Succeed(s1),
                 Result<T2, TErrorType>.Succeed(s2),

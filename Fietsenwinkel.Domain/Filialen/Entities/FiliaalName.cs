@@ -20,7 +20,7 @@ public class FiliaalName : IDomainValueType<string, FiliaalName>
             : ErrorResult<ErrorCodeList>.Succeed();
 
     public static Result<FiliaalName, ErrorCodeList> Create(string value) =>
-        CheckValidity(value).Switch(
+        CheckValidity(value).Map(
             onSuccess: () => Result<FiliaalName, ErrorCodeList>.Succeed(new FiliaalName(value)),
             onFailure: Result<FiliaalName, ErrorCodeList>.Fail);
 }

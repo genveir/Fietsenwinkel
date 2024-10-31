@@ -18,7 +18,7 @@ public class FietsSearchEndpoint : EndpointBase
     [HttpPost("fiets/search")]
     public async Task<IActionResult> FindFietsForUser([FromBody] FietsSearchInputModel fietsSearchInputModel)
     {
-        return await FietsSearchMapper.Map(fietsSearchInputModel).Switch(
+        return await FietsSearchMapper.Map(fietsSearchInputModel).Map(
             onSuccess: FindFietsForUser,
             onFailure: FormatErrorAsync);
 
@@ -26,7 +26,7 @@ public class FietsSearchEndpoint : EndpointBase
         {
             var result = await fietsSearchUseCase.Search(query);
 
-            return result.Switch(
+            return result.Map(
                 onSuccess: fiets => Ok(FietsSearchMapper.Map(fiets)),
                 onFailure: FormatError);
         }

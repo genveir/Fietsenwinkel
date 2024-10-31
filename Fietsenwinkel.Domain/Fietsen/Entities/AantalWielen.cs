@@ -21,7 +21,7 @@ public class AantalWielen : IDomainValueType<int, AantalWielen>
         };
 
     public static Result<AantalWielen, ErrorCodeList> Create(int value) =>
-        CheckValidity(value).Switch(
+        CheckValidity(value).Map(
             onSuccess: () => Result<AantalWielen, ErrorCodeList>.Succeed(new AantalWielen(value)),
             onFailure: Result<AantalWielen, ErrorCodeList>.Fail);
 }

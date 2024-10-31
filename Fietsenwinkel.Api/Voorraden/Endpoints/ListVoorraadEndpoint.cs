@@ -19,7 +19,7 @@ public class ListVoorraadEndpoint : EndpointBase
     [HttpGet("shops/{shopId}")]
     public async Task<IActionResult> ListVoorraad(string shopId, [FromQuery] string? filter)
     {
-        return await FiliaalId.Parse(shopId).Switch(
+        return await FiliaalId.Parse(shopId).Map(
             onSuccess: parsedId => ListVoorraad(parsedId, filter),
             onFailure: FormatErrorAsync);
 
@@ -27,7 +27,7 @@ public class ListVoorraadEndpoint : EndpointBase
         {
             var result = await listVoorraadUseCase.GetVoorraad(new(filiaalId, filter));
 
-            return result.Switch(
+            return result.Map(
                 onSuccess: voorraad => Ok(VoorraadListMapper.Map(voorraad)),
                 onFailure: FormatError);
         }

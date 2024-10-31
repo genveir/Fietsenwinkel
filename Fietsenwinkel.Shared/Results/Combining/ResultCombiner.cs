@@ -6,7 +6,7 @@ public static partial class Result
         Result<T1, TErrorType> r1,
         Result<T2, TErrorType> r2)
         where TErrorType : ICombinable<TErrorType> =>
-        CombineToTuple(r1, r2).Switch(
+        CombineToTuple(r1, r2).Map(
             onSuccess: vt =>
             {
                 var (s1, s2) = vt;
@@ -22,7 +22,7 @@ public static partial class Result
         where TErrorType : ICombinable<TErrorType> =>
         CombineToTuple(
             CombineToTuple(r1, r2),
-            r3).Switch(
+            r3).Map(
                 onSuccess: threetuple =>
                 {
                     var ((s1, s2), s3) = threetuple;
@@ -40,7 +40,7 @@ public static partial class Result
         CombineToTuple(
             CombineToTuple(r1, r2),
             CombineToTuple(r3, r4))
-                .Switch(
+                .Map(
                     onSuccess: fourTuple =>
                     {
                         var ((s1, s2), (s3, s4)) = fourTuple;
@@ -53,11 +53,11 @@ public static partial class Result
             Result<T1, TErrorType> r1,
             Result<T2, TErrorType> r2)
             where TErrorType : ICombinable<TErrorType> =>
-            r1.Switch(
-                onSuccess: s1 => r2.Switch(
+            r1.Map(
+                onSuccess: s1 => r2.Map(
                     onSuccess: s2 => Result<(T1, T2), TErrorType>.Succeed((s1, s2)),
                     onFailure: Result<(T1, T2), TErrorType>.Fail),
-                onFailure: e1 => r2.Switch(
+                onFailure: e1 => r2.Map(
                     onSuccess: _ => Result<(T1, T2), TErrorType>.Fail(e1),
                     onFailure: e2 => Result<(T1, T2), TErrorType>.Fail(e1.Combine(e2))));
 }

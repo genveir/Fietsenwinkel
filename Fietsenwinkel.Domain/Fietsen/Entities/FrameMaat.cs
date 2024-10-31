@@ -20,7 +20,7 @@ public class FrameMaat : IDomainValueType<int, FrameMaat>
         };
 
     public static Result<FrameMaat, ErrorCodeList> Create(int value) =>
-        CheckValidity(value).Switch(
+        CheckValidity(value).Map(
             onSuccess: () => Result<FrameMaat, ErrorCodeList>.Succeed(new FrameMaat(value)),
             onFailure: Result<FrameMaat, ErrorCodeList>.Fail);
 }

@@ -18,7 +18,7 @@ public class FiliaalId : IDomainValueType<int, FiliaalId>
             : ErrorResult<ErrorCodeList>.Succeed();
 
     public static Result<FiliaalId, ErrorCodeList> Create(int value) =>
-        CheckValidity(value).Switch(
+        CheckValidity(value).Map(
             onSuccess: () => Result<FiliaalId, ErrorCodeList>.Succeed(new FiliaalId(value)),
             onFailure: Result<FiliaalId, ErrorCodeList>.Fail);
 

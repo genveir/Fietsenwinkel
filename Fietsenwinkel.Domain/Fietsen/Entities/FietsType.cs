@@ -42,7 +42,7 @@ public partial class FietsType : IDomainValueType<string, FietsType>
 
     public static Result<FietsType, ErrorCodeList> Create(string value) =>
         CheckValidity(value)
-            .Switch(
+            .Map(
                 onSuccess: () => Result<FietsType, ErrorCodeList>.Succeed(new FietsType(value)),
                 onFailure: Result<FietsType, ErrorCodeList>.Fail);
 

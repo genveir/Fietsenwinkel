@@ -17,7 +17,7 @@ internal static class FiliaalListMapper
         {
             Result.Combine(
                 FiliaalId.Create(fm.Id),
-                FiliaalName.Create(fm.Name)).Switch(
+                FiliaalName.Create(fm.Name)).Act(
                     onSuccess: (id, name) => filiaalListEntries.Add(new(id, name)),
                     onFailure: errors.AddRange);
         }

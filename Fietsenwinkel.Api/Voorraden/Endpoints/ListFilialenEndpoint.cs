@@ -19,7 +19,7 @@ public class ListFilialenEndpoint : EndpointBase
     {
         var result = await listFilialenUseCase.ListFilialen();
 
-        return result.Switch(
+        return result.Map(
             onSuccess: filialen => Ok(FiliaaListlMapper.Map(filialen)),
             onFailure: FormatError);
     }
