@@ -15,8 +15,8 @@ public static partial class Result
             onFailure: e => Combine(
                 r1,
                 Result<T2, TErrorType>.Fail(e),
-                Result<T3, TErrorType>.Fail(TErrorType.GetEmpty()),
-                Result<T4, TErrorType>.Fail(TErrorType.GetEmpty())));
+                Result<T3, TErrorType>.Fail(TErrorType.GetNeutral()),
+                Result<T4, TErrorType>.Fail(TErrorType.GetNeutral())));
 
     public static Result<T1, T2, T3, T4, TErrorType> Combine<T1, T2, T3, T4, TErrorType>(
         Result<T1, T2, T3, TErrorType> r123,
@@ -30,7 +30,7 @@ public static partial class Result
                 r4),
             onFailure: e => Combine(
                 Result<T1, TErrorType>.Fail(e),
-                Result<T2, TErrorType>.Fail(TErrorType.GetEmpty()),
-                Result<T3, TErrorType>.Fail(TErrorType.GetEmpty()),
+                Result<T2, TErrorType>.Fail(TErrorType.GetNeutral()),
+                Result<T3, TErrorType>.Fail(TErrorType.GetNeutral()),
                 r4));
 }

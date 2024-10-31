@@ -18,7 +18,7 @@ public class ErrorCodeList : IList<ErrorCodes>, ICombinable<ErrorCodeList>
     public ErrorCodeList()
     { }
 
-    public static ErrorCodeList GetEmpty() => [];
+    public static ErrorCodeList GetNeutral() => [];
 
     public ErrorCodeList(IEnumerable<ErrorCodes> errors)
     {
@@ -64,6 +64,6 @@ public class ErrorCodeList : IList<ErrorCodes>, ICombinable<ErrorCodeList>
     IEnumerator IEnumerable.GetEnumerator() =>
         ((IEnumerable)Errors).GetEnumerator();
 
-    public ErrorCodeList Combine(ErrorCodeList combinable) =>
-        new(Errors.Concat(combinable.Errors));
+    public ErrorCodeList Combine(ErrorCodeList other) =>
+        new(Errors.Concat(other.Errors));
 }

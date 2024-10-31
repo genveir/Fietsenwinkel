@@ -16,7 +16,7 @@ public static partial class Result
         onFailure: e => Combine(
             r1,
             Result<T2, TErrorType>.Fail(e),
-            Result<T3, TErrorType>.Fail(TErrorType.GetEmpty())));
+            Result<T3, TErrorType>.Fail(TErrorType.GetNeutral())));
 
     public static Result<T1, T2, T3, TErrorType> Combine<T1, T2, T3, TErrorType>(
         Result<T1, T2, TErrorType> r12,
@@ -29,7 +29,7 @@ public static partial class Result
                 r3),
             onFailure: e => Combine(
                 Result<T1, TErrorType>.Fail(e),
-                Result<T2, TErrorType>.Fail(TErrorType.GetEmpty()),
+                Result<T2, TErrorType>.Fail(TErrorType.GetNeutral()),
                 r3));
 
     public static Result<T1, T2, T3, T4, TErrorType> Combine<T1, T2, T3, T4, TErrorType>(
@@ -47,7 +47,7 @@ public static partial class Result
                 r1,
                 r2,
                 Result<T3, TErrorType>.Fail(e),
-                Result<T4, TErrorType>.Fail(TErrorType.GetEmpty())));
+                Result<T4, TErrorType>.Fail(TErrorType.GetNeutral())));
 
     public static Result<T1, T2, T3, T4, TErrorType> Combine<T1, T2, T3, T4, TErrorType>(
         Result<T1, TErrorType> r1,
@@ -63,7 +63,7 @@ public static partial class Result
             onFailure: e => Combine(
                 r1,
                 Result<T2, TErrorType>.Fail(e),
-                Result<T3, TErrorType>.Fail(TErrorType.GetEmpty()),
+                Result<T3, TErrorType>.Fail(TErrorType.GetNeutral()),
                 r4));
 
     public static Result<T1, T2, T3, T4, TErrorType> Combine<T1, T2, T3, T4, TErrorType>(
@@ -79,13 +79,13 @@ public static partial class Result
                 r4),
             onFailure: e => Combine(
                 Result<T1, TErrorType>.Fail(e),
-                Result<T2, TErrorType>.Fail(TErrorType.GetEmpty()),
+                Result<T2, TErrorType>.Fail(TErrorType.GetNeutral()),
                 r3,
                 r4));
 
     public static Result<T1, T2, T3, T4, TErrorType> Combine<T1, T2, T3, T4, TErrorType>(
         Result<T1, T2, TErrorType> r12,
-        Result<T1, T2, TErrorType> r34)
+        Result<T3, T4, TErrorType> r34)
         where TErrorType : ICombinable<TErrorType> =>
         (r12, r34) switch
         {
