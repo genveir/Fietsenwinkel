@@ -18,6 +18,8 @@ public class ErrorCodeList : IList<ErrorCodes>, ICombinable<ErrorCodeList>
     public ErrorCodeList()
     { }
 
+    public static ErrorCodeList GetEmpty() => [];
+
     public ErrorCodeList(IEnumerable<ErrorCodes> errors)
     {
         Errors = errors.ToList();

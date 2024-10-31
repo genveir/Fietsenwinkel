@@ -14,12 +14,13 @@ internal class FietsMapper
             FietsType.Create(fiets.FietsType.TypeName),
             FrameMaat.Create(fiets.FrameMaat),
             Money.Create(fiets.Price)).Switch(
-                onSuccess: vt =>
-                {
-                    var (aantalWielen, fietsType, frameMaat, price) = vt;
-
-                    return Result<Fiets, ErrorCodeList>
-                        .Succeed(new Fiets(fietsType, aantalWielen, frameMaat, price));
-                },
+                onSuccess: MapFiets,
                 onFailure: Result<Fiets, ErrorCodeList>.Fail);
+
+    private static Result<Fiets, ErrorCodeList> MapFiets(AantalWielen aantalWielen, FietsType fietsType, FrameMaat frameMaat, Money price)
+    {
+        var fiets = new Fiets(fietsType, aantalWielen, frameMaat, price);
+
+        return Result<Fiets, ErrorCodeList>.Succeed(fiets);
+    }
 }

@@ -12,7 +12,7 @@ internal static class FrameMaatService
             DetermineMin(height),
             DetermineMax(height))
                 .Switch(
-                    onSuccess: vt => vt,
+                    onSuccess: (min, max) => (min, max),
                     onFailure: _ => throw new NotImplementedException("Dit zou niet moeten kunnen"));
 
     private static Result<FrameMaat, ErrorCodeList> DetermineMin(int height) =>

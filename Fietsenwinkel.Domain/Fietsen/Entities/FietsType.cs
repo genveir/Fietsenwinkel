@@ -43,8 +43,8 @@ public partial class FietsType : IDomainValueType<string, FietsType>
     public static Result<FietsType, ErrorCodeList> Create(string value) =>
         CheckValidity(value)
             .Switch(
-                () => Result<FietsType, ErrorCodeList>.Succeed(new FietsType(value)),
-                Result<FietsType, ErrorCodeList>.Fail);
+                onSuccess: () => Result<FietsType, ErrorCodeList>.Succeed(new FietsType(value)),
+                onFailure: Result<FietsType, ErrorCodeList>.Fail);
 
     [GeneratedRegex(@"^[a-zA-Z0-9]+ [a-zA-Z0-9]+$")]
     protected static partial Regex TypePattern();

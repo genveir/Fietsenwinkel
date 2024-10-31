@@ -29,13 +29,8 @@ internal static class VoorraadListMapper
         return Result.Combine(
             FiliaalId.Create(voorraadModels.First().FiliaalId),
             MapEntries(voorraadModels)).Switch(
-            onSuccess: vt =>
-            {
-                var (filiaalId, entries) = vt;
-
-                return Result<VoorraadList, ErrorCodeList>.Succeed(new(filiaalId, entries));
-            },
-            onFailure: Result<VoorraadList, ErrorCodeList>.Fail);
+                onSuccess: (filiaalId, entries) => Result<VoorraadList, ErrorCodeList>.Succeed(new(filiaalId, entries)),
+                onFailure: Result<VoorraadList, ErrorCodeList>.Fail);
     }
 
     private static Result<VoorraadListEntry[], ErrorCodeList> MapEntries(VoorraadModel[] voorraadModels)

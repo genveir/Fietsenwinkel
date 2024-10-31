@@ -20,10 +20,8 @@ public static class FietsSearchMapper
         return Result.Combine(
             MapKlant(model),
             MapFietsType(model)).Switch(
-            onSuccess: vt =>
+            onSuccess: (klant, fietsType) =>
             {
-                var (klant, fietsType) = vt;
-
                 var fietsSearchQuery = new FietsSearchQuery(klant, fietsType);
 
                 return Result<FietsSearchQuery, ErrorCodeList>.Succeed(fietsSearchQuery);
