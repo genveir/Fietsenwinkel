@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Fietsenwinkel.Shared.Results;
+﻿namespace Fietsenwinkel.Shared.Results;
 
 public static partial class Result
 {
@@ -87,16 +85,11 @@ public static partial class Result
         Result<T1, T2, TErrorType> r12,
         Result<T3, T4, TErrorType> r34)
         where TErrorType : ICombinable<TErrorType> =>
-        (r12, r34) switch
-        {
-            (SuccessResult<T1, T2, TErrorType> s12, SuccessResult<T3, T4, TErrorType> s34) =>
-                Result<T1, T2, T3, T4, TErrorType>.Succeed(s12.Value1, s12.Value2, s34.Value1, s34.Value2),
-            (FailureResult<T1, T2, TErrorType> f12, FailureResult<T3, T4, TErrorType> f34) =>
-                Result<T1, T2, T3, T4, TErrorType>.Fail(f12.Error.Combine(f34.Error)),
-            (_, FailureResult<T3, T4, TErrorType> f34) =>
-                Result<T1, T2, T3, T4, TErrorType>.Fail(f34.Error),
-            (FailureResult<T1, T2, TErrorType> f12, _) =>
-                Result<T1, T2, T3, T4, TErrorType>.Fail(f12.Error),
-            _ => throw new NotSupportedException("Cannot combine results other than SuccessResults or FailureResults")
-        };
+        r12.Switch(
+            onSuccess: (s1, s2) => r34.Switch(
+                onSuccess: (s3, s4) => Result<T1, T2, T3, T4, TErrorType>.Succeed(s1, s2, s3, s4),
+                onFailure: Result<T1, T2, T3, T4, TErrorType>.Fail),
+            onFailure: e12 => r34.Switch(
+                onSuccess: (_, _) => Result<T1, T2, T3, T4, TErrorType>.Fail(e12),
+                onFailure: e34 => Result<T1, T2, T3, T4, TErrorType>.Fail(e12.Combine(e34))));
 }
