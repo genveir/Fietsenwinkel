@@ -1,5 +1,4 @@
 using Fietsenwinkel.Api;
-using Fietsenwinkel.Application;
 using Fietsenwinkel.Database;
 using Fietsenwinkel.Domain;
 using Fietsenwinkel.MapsApiAdapter;
@@ -28,7 +27,6 @@ public class Program
 
     private static void ConfigureServices(IServiceCollection services)
     {
-        services.RegisterFietsenwinkelApplicationModule();
         services.RegisterFietsenwinkelApiModule();
         services.RegisterFietsenwinkelDatabaseModule();
         services.RegisterFietsenwinkelUseCaseModule();

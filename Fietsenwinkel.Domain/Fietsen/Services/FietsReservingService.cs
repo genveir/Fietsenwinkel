@@ -2,11 +2,16 @@
 using Fietsenwinkel.Domain.Fietsen.Entities;
 using Fietsenwinkel.Domain.Shopping.Entities;
 using Fietsenwinkel.Shared.Results;
-using Fietsenwinkel.UseCases.Shopping.Plugins;
+using System.Threading.Tasks;
 
-namespace Fietsenwinkel.Application.Reservations;
+namespace Fietsenwinkel.Domain.Fietsen.Services;
 
-internal class FietsReserver : IFietsReserver
+public interface IFietsReserver
+{
+    Task<ErrorResult<ErrorCodeList>> ReserveFietsForUser(Fiets fiets, Klant klant);
+}
+
+internal class FietsReservingService : IFietsReserver
 {
     public async Task<ErrorResult<ErrorCodeList>> ReserveFietsForUser(Fiets fiets, Klant klant)
     {

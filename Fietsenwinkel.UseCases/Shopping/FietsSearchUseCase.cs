@@ -1,5 +1,6 @@
 ﻿using Fietsenwinkel.Domain.Errors;
 using Fietsenwinkel.Domain.Fietsen.Entities;
+using Fietsenwinkel.Domain.Fietsen.Services;
 using Fietsenwinkel.Domain.Shopping.Entities;
 using Fietsenwinkel.Domain.Shopping.Services;
 using Fietsenwinkel.Shared.Results;
