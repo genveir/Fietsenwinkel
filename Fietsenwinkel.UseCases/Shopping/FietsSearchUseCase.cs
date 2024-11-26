@@ -13,7 +13,7 @@ public record FietsSearchQuery(Klant Klant, FietsType? PreferredType);
 
 public interface IFietsSearchUseCase
 {
-    Task<Result<Fiets, ErrorCodeList>> Search(FietsSearchQuery query);
+    Task<Result<FietsAndFiliaalName, ErrorCodeList>> Search(FietsSearchQuery query);
 }
 
 internal class FietsSearchUseCase : IFietsSearchUseCase
@@ -29,7 +29,7 @@ internal class FietsSearchUseCase : IFietsSearchUseCase
         this.fietsRefetcher = fietsRefetcher;
     }
 
-    public async Task<Result<Fiets, ErrorCodeList>> Search(FietsSearchQuery query)
+    public async Task<Result<FietsAndFiliaalName, ErrorCodeList>> Search(FietsSearchQuery query)
     {
         var bestFietsQuery = new DetermineBestFietsForKlantQuery(query.Klant, query.PreferredType);
 
@@ -37,16 +37,25 @@ internal class FietsSearchUseCase : IFietsSearchUseCase
 
         return await bestFietsResult.Map(
             onSuccess: ReserveFiets,
-            onFailure: errors => Task.FromResult(Result<Fiets, ErrorCodeList>.Fail(errors)));
+            onFailure: Result<FietsAndFiliaalName, ErrorCodeList>.FailAsTask);
 
-        async Task<Result<Fiets, ErrorCodeList>> ReserveFiets(Fiets bestFiets)
+        async Task<Result<FietsAndFiliaalName, ErrorCodeList>> ReserveFiets(FietsAndFiliaalName bestFiets)
         {
-            var reserveResult = await fietsReserver.ReserveFietsForUser(bestFiets, query.Klant);
+            var reserveResult = await fietsReserver.ReserveFietsForUser(bestFiets.Fiets, query.Klant);
 
             // om de een of andere reden moeten we de fiets opnieuw fetchen na het reserveren
             return await reserveResult.Map(
-                onSuccess: () => fietsRefetcher.RefetchFiets(bestFiets),
-                onFailure: errors => Task.FromResult(Result<Fiets, ErrorCodeList>.Fail(errors)));
+                onSuccess: () => RefetchFiets(bestFiets),
+                onFailure: Result<FietsAndFiliaalName, ErrorCodeList>.FailAsTask);
+        }
+
+        async Task<Result<FietsAndFiliaalName, ErrorCodeList>> RefetchFiets(FietsAndFiliaalName bestFiets)
+        {
+            var refetchResult = await fietsRefetcher.RefetchFiets(bestFiets.Fiets);
+
+            return refetchResult.Map(
+                onSuccess: f => Result<FietsAndFiliaalName, ErrorCodeList>.Succeed(new FietsAndFiliaalName(f, bestFiets.FiliaalName)),
+                onFailure: Result<FietsAndFiliaalName, ErrorCodeList>.Fail);
         }
     }
 }

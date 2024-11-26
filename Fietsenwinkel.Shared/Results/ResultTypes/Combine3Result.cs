@@ -1,5 +1,7 @@
 ﻿using System;
 
+#pragma warning disable IDE0130 // Namespace is not the same as the file path
+
 namespace Fietsenwinkel.Shared.Results;
 
 public abstract class Result<TValueType1, TValueType2, TValueType3, TErrorType>

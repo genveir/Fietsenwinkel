@@ -16,11 +16,15 @@ public class FietsSearchOutputModel
     [JsonPropertyName("price")]
     public int Price { get; }
 
-    public FietsSearchOutputModel(string fietsType, int aantalWielen, int frameSize, int price)
+    [JsonPropertyName("store")]
+    public string FiliaalName { get; }
+
+    public FietsSearchOutputModel(string fietsType, int aantalWielen, int frameSize, int price, string filiaalName)
     {
         FietsType = fietsType;
         AantalWielen = aantalWielen;
         FrameSize = frameSize;
         Price = price;
+        FiliaalName = filiaalName;
     }
 }

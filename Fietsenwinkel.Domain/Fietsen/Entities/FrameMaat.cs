@@ -15,7 +15,7 @@ public class FrameMaat : IDomainValueType<int, FrameMaat>
     private static ErrorResult<ErrorCodeList> CheckValidity(int value) =>
         value switch
         {
-            < 20 or > 100 => ErrorResult<ErrorCodeList>.Fail([ErrorCodes.Fiets_FrameMaat_Invalid]),
+            < 20 or > 100 => ErrorResult<ErrorCodeList>.Fail([ErrorCodes.FrameMaat_Invalid]),
             _ => ErrorResult<ErrorCodeList>.Succeed()
         };
 

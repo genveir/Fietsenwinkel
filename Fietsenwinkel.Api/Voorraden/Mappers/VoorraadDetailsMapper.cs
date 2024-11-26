@@ -11,9 +11,9 @@ internal static class VoorraadDetailsMapper
     public static VoorraadDetailsOutputModel Map(VoorraadDetails voorraadDetails) =>
         new(voorraadDetails.FiliaalId.Value, Map(voorraadDetails.Fietsen));
 
-    private static VoorraadDetailsFietsOutputModel[] Map(IEnumerable<Fiets> fietsen) =>
+    private static FietsOutputModel[] Map(IEnumerable<Fiets> fietsen) =>
         fietsen.Select(Map).ToArray();
 
-    private static VoorraadDetailsFietsOutputModel Map(Fiets fiets) =>
-        new(fiets.Type.Value, fiets.AantalWielen.Value, fiets.FrameMaat.Value, fiets.Price.Value);
+    private static FietsOutputModel Map(Fiets fiets) =>
+        FietsMapper.Map(fiets);
 }

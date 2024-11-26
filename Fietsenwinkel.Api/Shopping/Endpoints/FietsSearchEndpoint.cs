@@ -27,7 +27,7 @@ public class FietsSearchEndpoint : EndpointBase
             var result = await fietsSearchUseCase.Search(query);
 
             return result.Map(
-                onSuccess: fiets => Ok(FietsSearchMapper.Map(fiets)),
+                onSuccess: fafn => Ok(FietsSearchMapper.Map(fafn)),
                 onFailure: FormatError);
         }
     }

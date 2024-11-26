@@ -1,8 +1,8 @@
 ﻿using Fietsenwinkel.Domain.Errors;
 using Fietsenwinkel.Domain.Filialen.Entities;
+using Fietsenwinkel.Domain.Filialen.Plugins;
 using Fietsenwinkel.Domain.Voorraden.Entities;
 using Fietsenwinkel.Shared.Results;
-using Fietsenwinkel.UseCases.Filialen;
 using Fietsenwinkel.UseCases.Voorraden.Plugins;
 using System.Threading.Tasks;
 
@@ -26,15 +26,19 @@ internal class GetVoorraadDetailsUseCase : IGetVoorraadDetailsUseCase
 
     public async Task<Result<VoorraadDetails, ErrorCodeList>> GetDetails(FiliaalId filiaalId)
     {
-        var filiaalExists = await filiaalExistenceChecker.Exists(filiaalId);
+        var filiaalExistsResult = await filiaalExistenceChecker.Exists(filiaalId);
 
-        if (!filiaalExists)
+        return await filiaalExistsResult
+            .Map(
+                onFailure: Result<VoorraadDetails, ErrorCodeList>.FailAsTask,
+                onSuccess: GetVoorraadDetails
+            );
+
+        async Task<Result<VoorraadDetails, ErrorCodeList>> GetVoorraadDetails()
         {
-            return Result<VoorraadDetails, ErrorCodeList>.Fail([ErrorCodes.Filiaal_Not_Found]);
+            var query = new VoorraadDetailsAccessorQuery(filiaalId);
+
+            return await voorraadDetailsAccessor.GetVoorraadDetails(query);
         }
-
-        var query = new VoorraadDetailsAccessorQuery(filiaalId);
-
-        return await voorraadDetailsAccessor.GetVoorraadDetails(query);
     }
 }

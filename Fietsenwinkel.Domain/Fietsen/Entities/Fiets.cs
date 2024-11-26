@@ -2,4 +2,4 @@
 
 namespace Fietsenwinkel.Domain.Fietsen.Entities;
 
-public record Fiets(FietsType Type, AantalWielen AantalWielen, FrameMaat FrameMaat, Money Price);
+public record Fiets(FietsId Id, FietsType Type, AantalWielen AantalWielen, FrameMaat FrameMaat, Money Price);

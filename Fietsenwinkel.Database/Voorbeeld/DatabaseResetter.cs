@@ -33,7 +33,7 @@ internal class DatabaseResetter : IDatabaseResetter
                 new() { Name = "Geerten's Fietsenwinkel" },
                 new() { Name = "Ben's Fietsenwinkel" },
                 new() { Name = "Gert-Jan's Fietsenwinkel" },
-                new() { Name = "Ties' Fietsenwinkel" }
+                new() { Name = "Earde's Fietsenwinkel" }
             ];
 
         VoorraadModel[] voorraden = [

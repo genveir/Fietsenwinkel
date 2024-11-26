@@ -1,4 +1,6 @@
-﻿namespace Fietsenwinkel.Shared.Results;
+﻿#pragma warning disable IDE0130 // Namespace is not the same as the file path
+
+namespace Fietsenwinkel.Shared.Results;
 
 public interface ICombinable<TCombinableType> where TCombinableType : ICombinable<TCombinableType>
 {

@@ -77,6 +77,11 @@ public static class FietsSearchMapper
         return Result<FietsType?, ErrorCodeList>.Succeed(null);
     }
 
-    public static FietsSearchOutputModel Map(Fiets fiets) =>
-        new(fiets.Type.Value, fiets.AantalWielen.Value, fiets.FrameMaat.Value, fiets.Price.Value);
+    public static FietsSearchOutputModel Map(FietsAndFiliaalName fietsAndFiliaal) =>
+        new(
+            fietsAndFiliaal.Fiets.Type.Value,
+            fietsAndFiliaal.Fiets.AantalWielen.Value,
+            fietsAndFiliaal.Fiets.FrameMaat.Value,
+            fietsAndFiliaal.Fiets.Price.Value,
+            fietsAndFiliaal.FiliaalName.Value);
 }

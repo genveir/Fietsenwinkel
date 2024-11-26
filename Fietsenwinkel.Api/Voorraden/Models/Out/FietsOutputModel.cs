@@ -2,8 +2,11 @@
 
 namespace Fietsenwinkel.Api.Voorraden.Models.Out;
 
-public class VoorraadDetailsFietsOutputModel
+public class FietsOutputModel
 {
+    [JsonPropertyName("id")]
+    public int FietsId { get; }
+
     [JsonPropertyName("brandAndType")]
     public string FietsType { get; }
 
@@ -16,8 +19,9 @@ public class VoorraadDetailsFietsOutputModel
     [JsonPropertyName("price")]
     public int Price { get; }
 
-    public VoorraadDetailsFietsOutputModel(string fietsType, int aantalWielen, int frameSize, int price)
+    public FietsOutputModel(int id, string fietsType, int aantalWielen, int frameSize, int price)
     {
+        FietsId = id;
         FietsType = fietsType;
         AantalWielen = aantalWielen;
         FrameSize = frameSize;

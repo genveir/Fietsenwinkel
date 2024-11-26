@@ -8,9 +8,9 @@ public class VoorraadDetailsOutputModel
     public int FiliaalId { get; }
 
     [JsonPropertyName("bikes")]
-    public VoorraadDetailsFietsOutputModel[] VoorraadDetailsFietsOutputModels { get; }
+    public FietsOutputModel[] VoorraadDetailsFietsOutputModels { get; }
 
-    public VoorraadDetailsOutputModel(int filiaalId, VoorraadDetailsFietsOutputModel[] voorraadDetailsFietsOutputModels)
+    public VoorraadDetailsOutputModel(int filiaalId, FietsOutputModel[] voorraadDetailsFietsOutputModels)
     {
         FiliaalId = filiaalId;
         VoorraadDetailsFietsOutputModels = voorraadDetailsFietsOutputModels;

@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Threading.Tasks;
+
+#pragma warning disable IDE0130 // Namespace is not the same as the file path
 
 namespace Fietsenwinkel.Shared.Results;
 
@@ -7,6 +10,9 @@ public abstract class ErrorResult<TErrorType>
     public static ErrorResult<TErrorType> Succeed() => new ErrorSuccessResult<TErrorType>();
 
     public static ErrorResult<TErrorType> Fail(TErrorType value) => new ErrorFailureResult<TErrorType>(value);
+
+    public static Task<ErrorResult<TErrorType>> FailAsTask(TErrorType value) =>
+        Task.FromResult<ErrorResult<TErrorType>>(new ErrorFailureResult<TErrorType>(value));
 
     public void Act(
         Action onSuccess,

@@ -9,17 +9,23 @@ namespace Fietsenwinkel.Database.Mappers;
 internal class FietsMapper
 {
     internal static Result<Fiets, ErrorCodeList> Map(FietsModel fiets) =>
+        FietsId.Create(fiets.Id)
+            .Map(
+                onSuccess: id => MapFiets(id, fiets),
+                onFailure: Result<Fiets, ErrorCodeList>.Fail);
+
+    private static Result<Fiets, ErrorCodeList> MapFiets(FietsId id, FietsModel fiets) =>
         Result.Combine(
             AantalWielen.Create(fiets.AantalWielen),
             FietsType.Create(fiets.FietsType.TypeName),
             FrameMaat.Create(fiets.FrameMaat),
             Money.Create(fiets.Price)).Map(
-                onSuccess: MapFiets,
+                onSuccess: (aantalWielen, fietsType, frameMaat, price) => MapFiets(id, aantalWielen, fietsType, frameMaat, price),
                 onFailure: Result<Fiets, ErrorCodeList>.Fail);
 
-    private static Result<Fiets, ErrorCodeList> MapFiets(AantalWielen aantalWielen, FietsType fietsType, FrameMaat frameMaat, Money price)
+    private static Result<Fiets, ErrorCodeList> MapFiets(FietsId id, AantalWielen aantalWielen, FietsType fietsType, FrameMaat frameMaat, Money price)
     {
-        var fiets = new Fiets(fietsType, aantalWielen, frameMaat, price);
+        var fiets = new Fiets(id, fietsType, aantalWielen, frameMaat, price);
 
         return Result<Fiets, ErrorCodeList>.Succeed(fiets);
     }

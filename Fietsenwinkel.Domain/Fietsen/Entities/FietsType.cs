@@ -25,12 +25,12 @@ public partial class FietsType : IDomainValueType<string, FietsType>
 
         if (!HasContent(value))
         {
-            errors.Add(ErrorCodes.Fietstype_Value_Not_Set);
+            errors.Add(ErrorCodes.FietsType_Value_Not_Set);
         }
 
         if (!MatchesTypePattern(value))
         {
-            errors.Add(ErrorCodes.Fietstype_Invalid_Format);
+            errors.Add(ErrorCodes.FietsType_Invalid_Format);
         }
 
         if (errors.Count != 0)

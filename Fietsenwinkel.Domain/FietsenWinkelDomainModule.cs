@@ -11,7 +11,7 @@ public static class FietsenWinkelDomainModule
         services.AddScoped<IDetermineBestFietsForKlantService, DetermineBestFietsForKlantService>();
 
         services.AddScoped<IFietsReserver, FietsReservingService>();
-
+        services.AddScoped<IFietsUpdateService, FietsUpdateService>();
 
         return services;
     }
