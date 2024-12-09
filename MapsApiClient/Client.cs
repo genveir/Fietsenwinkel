@@ -7,7 +7,7 @@ public interface IMapsApiClient
     Task<MapCoordinate> ResolvePosition(string thingToLocate);
 }
 
-public class Client : IMapsApiClient
+internal class Client : IMapsApiClient
 {
     public Task<MapCoordinate> ResolvePosition(string thingToLocate)
     {
