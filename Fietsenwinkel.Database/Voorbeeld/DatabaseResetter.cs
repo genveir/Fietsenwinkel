@@ -30,10 +30,10 @@ internal class DatabaseResetter : IDatabaseResetter
             ];
 
         FiliaalModel[] filialen = [
-                new() { Name = "Geerten's Fietsenwinkel" },
+                new() { Name = "Alexander's Fietsenwinkel" },
                 new() { Name = "Ben's Fietsenwinkel" },
-                new() { Name = "Gert-Jan's Fietsenwinkel" },
-                new() { Name = "Earde's Fietsenwinkel" }
+                new() { Name = "Earde's Fietsenwinkel" },
+                new() { Name = "Gert-Jan's Fietsenwinkel" }
             ];
 
         VoorraadModel[] voorraden = [
