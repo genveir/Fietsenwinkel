@@ -35,7 +35,7 @@ internal class DetermineBestFietsForKlantService : IDetermineBestFietsForKlantSe
 
     public async Task<Result<FietsAndFiliaalName, ErrorCodeList>> DetermineBestFiets(DetermineBestFietsForKlantQuery query)
     {
-        var (min, max) = FrameMaatService.DetermineSizesFor(query.Klant.Height);
+        var frameMaatResult = FrameMaatService.DetermineSizesFor(query.Klant.Height);
 
         var filiaalListResult = await filiaalListAccessor.ListFilialen();
 
@@ -54,7 +54,9 @@ internal class DetermineBestFietsForKlantService : IDetermineBestFietsForKlantSe
 
         async Task<Result<FietsAndFiliaalName, ErrorCodeList>> DetermineInBudget(FiliaalListEntry filiaal)
         {
-            var budgetResult = await this.DetermineInBudget(filiaal, min, max, query);
+            var budgetResult = await frameMaatResult.Map(
+                onSuccess: sizes => this.DetermineInBudget(filiaal, sizes.min, sizes.max, query),
+                onFailure: Result<FietsAndFiliaalName, ErrorCodeList>.FailAsTask);
 
             return await budgetResult.Map(
                 onSuccess: fietsAndFiliaal => Task.FromResult(Result<FietsAndFiliaalName, ErrorCodeList>.Succeed(fietsAndFiliaal)),
@@ -70,7 +72,9 @@ internal class DetermineBestFietsForKlantService : IDetermineBestFietsForKlantSe
 
         async Task<Result<FietsAndFiliaalName, ErrorCodeList>> DetermineAny(FiliaalListEntry filiaal)
         {
-            var anyResult = await anyMatchingFietsResolver.GetFiets(filiaal.Id, min, max);
+            var anyResult = await frameMaatResult.Map(
+                onSuccess: sizes => anyMatchingFietsResolver.GetFiets(filiaal.Id, sizes.min, sizes.max),
+                onFailure: Result<Fiets, ErrorCodeList>.FailAsTask);
 
             return anyResult.Map(
                 onSuccess: f => Result<FietsAndFiliaalName, ErrorCodeList>.Succeed(new(f, filiaal.Name)),

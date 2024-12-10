@@ -1,19 +1,17 @@
 ﻿using Fietsenwinkel.Domain.Errors;
 using Fietsenwinkel.Domain.Fietsen.Entities;
 using Fietsenwinkel.Shared.Results;
-using System;
 
 namespace Fietsenwinkel.Domain.Shopping.Services;
 
 internal static class FrameMaatService
 {
-    public static (FrameMaat min, FrameMaat max) DetermineSizesFor(int height) =>
+    public static Result<(FrameMaat min, FrameMaat max), ErrorCodeList> DetermineSizesFor(int height) =>
         Result.Combine(
             DetermineMin(height),
-            DetermineMax(height))
-                .Map(
-                    onSuccess: (min, max) => (min, max),
-                    onFailure: _ => throw new NotImplementedException("Dit zou niet moeten kunnen"));
+            DetermineMax(height)).Map(
+                onSuccess: (min, max) => Result<(FrameMaat min, FrameMaat max), ErrorCodeList>.Succeed((min, max)),
+                    onFailure: Result<(FrameMaat min, FrameMaat max), ErrorCodeList>.Fail);
 
     private static Result<FrameMaat, ErrorCodeList> DetermineMin(int height) =>
         FrameMaat.Create(height switch

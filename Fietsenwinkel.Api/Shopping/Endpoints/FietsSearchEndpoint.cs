@@ -18,9 +18,10 @@ public class FietsSearchEndpoint : EndpointBase
     [HttpPost("fiets/search")]
     public async Task<IActionResult> FindFietsForUser([FromBody] FietsSearchInputModel fietsSearchInputModel)
     {
-        return await FietsSearchMapper.Map(fietsSearchInputModel).Map(
-            onSuccess: FindFietsForUser,
-            onFailure: FormatErrorAsync);
+        return await FietsSearchMapper
+            .Map(fietsSearchInputModel).Map(
+                onSuccess: FindFietsForUser,
+                onFailure: FormatErrorAsync);
 
         async Task<IActionResult> FindFietsForUser(FietsSearchQuery query)
         {
