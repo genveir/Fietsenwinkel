@@ -7,8 +7,6 @@ public class FiliaalName : IDomainValueType<string, FiliaalName>
 {
     public string Value { get; }
 
-    public static FiliaalName Default() => new("No Name Set");
-
     private FiliaalName(string value)
     {
         Value = value;
