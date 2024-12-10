@@ -1,7 +1,6 @@
 ﻿using Fietsenwinkel.UseCases.Shopping;
 using Fietsenwinkel.UseCases.Voorbeeld;
 using Fietsenwinkel.UseCases.Voorraden;
-using Fietsenwinkel.UseCases.Voorraden.Management;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Fietsenwinkel.UseCases;
@@ -15,10 +14,5 @@ public static class FietsenwinkelUseCaseModule
         services.AddScoped<IListFilialenUseCase, ListFilialenUseCase>();
         services.AddScoped<IGetVoorraadDetailsUseCase, GetVoorraadDetailsUseCase>();
         services.AddScoped<IFietsSearchUseCase, FietsSearchUseCase>();
-
-        services.AddScoped<IAddFietsUseCase, AddFietsUseCase>();
-        services.AddScoped<IGetFietsUseCase, GetFietsUseCase>();
-        services.AddScoped<IUpdateFietsUseCase, UpdateFietsUseCase>();
-        services.AddScoped<IDeleteFietsUseCase, DeleteFietsUseCase>();
     }
 }

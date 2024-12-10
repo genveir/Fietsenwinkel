@@ -5,9 +5,9 @@ using Fietsenwinkel.Database.Voorraden;
 using Fietsenwinkel.Domain.Fietsen.Plugins;
 using Fietsenwinkel.Domain.Filialen.Plugins;
 using Fietsenwinkel.Domain.Shopping.Plugins;
+using Fietsenwinkel.UseCases.Admin.Voorraden.Plugins;
 using Fietsenwinkel.UseCases.Shopping.Plugins;
 using Fietsenwinkel.UseCases.Voorbeeld.Plugins;
-using Fietsenwinkel.UseCases.Voorraden.Management.Plugins;
 using Fietsenwinkel.UseCases.Voorraden.Plugins;
 using Microsoft.Extensions.DependencyInjection;
 

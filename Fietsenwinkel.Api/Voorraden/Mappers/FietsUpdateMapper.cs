@@ -1,7 +1,7 @@
 ﻿using Fietsenwinkel.Api.Voorraden.Models.In;
 using Fietsenwinkel.Domain.Errors;
 using Fietsenwinkel.Shared.Results;
-using Fietsenwinkel.UseCases.Voorraden.Management;
+using Fietsenwinkel.UseCases.Admin.Voorraden;
 
 namespace Fietsenwinkel.Api.Voorraden.Mappers;
 

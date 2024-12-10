@@ -2,7 +2,7 @@
 using Fietsenwinkel.Domain.Fietsen.Entities;
 using Fietsenwinkel.Domain.Filialen.Entities;
 using Fietsenwinkel.Shared.Results;
-using Fietsenwinkel.UseCases.Voorraden.Management;
+using Fietsenwinkel.UseCases.Admin.Voorraden;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 

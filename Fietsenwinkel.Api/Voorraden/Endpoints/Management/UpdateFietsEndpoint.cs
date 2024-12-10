@@ -1,6 +1,6 @@
 ﻿using Fietsenwinkel.Api.Voorraden.Mappers;
 using Fietsenwinkel.Api.Voorraden.Models.In;
-using Fietsenwinkel.UseCases.Voorraden.Management;
+using Fietsenwinkel.UseCases.Admin.Voorraden;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 

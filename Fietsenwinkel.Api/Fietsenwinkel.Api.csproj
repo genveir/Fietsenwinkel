@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Fietsenwinkel.Domain\Fietsenwinkel.Domain.csproj" />
+    <ProjectReference Include="..\Fietsenwinkel.UseCases.Admin\Fietsenwinkel.UseCases.Admin.csproj" />
     <ProjectReference Include="..\Fietsenwinkel.UseCases\Fietsenwinkel.UseCases.csproj" />
   </ItemGroup>
 

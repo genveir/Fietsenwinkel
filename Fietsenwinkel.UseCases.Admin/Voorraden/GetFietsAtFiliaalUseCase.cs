@@ -5,7 +5,7 @@ using Fietsenwinkel.Domain.Filialen.Entities;
 using Fietsenwinkel.Shared.Results;
 using System.Threading.Tasks;
 
-namespace Fietsenwinkel.UseCases.Voorraden.Management;
+namespace Fietsenwinkel.UseCases.Admin.Voorraden;
 
 public interface IGetFietsUseCase
 {

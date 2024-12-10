@@ -3,6 +3,7 @@ using Fietsenwinkel.Database;
 using Fietsenwinkel.Domain;
 using Fietsenwinkel.MapsApiAdapter;
 using Fietsenwinkel.UseCases;
+using Fietsenwinkel.UseCases.Admin;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -30,6 +31,7 @@ public class Program
         services.RegisterFietsenwinkelApiModule();
         services.RegisterFietsenwinkelDatabaseModule();
         services.RegisterFietsenwinkelUseCaseModule();
+        services.RegisterFietsenwinkelUseCaseAdminModule();
         services.RegisterFietsenwinkelDomainModule();
         services.RegisterFietsenwinkelMapsApiAdapter();
 

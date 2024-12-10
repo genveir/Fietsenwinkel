@@ -15,9 +15,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fietsenwinkel.Api", "Fietse
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fietsenwinkel.Shared", "Fietsenwinkel.Shared\Fietsenwinkel.Shared.csproj", "{FB2CE9C3-60E3-4819-8727-4E5A5612E16C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapsApiClient.KeiExterne.Nuget.Package", "MapsApiClient\MapsApiClient.KeiExterne.Nuget.Package.csproj", "{27AA1C37-92F1-4D00-88C3-E5C98B75F50C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MapsApiClient.KeiExterne.Nuget.Package", "MapsApiClient\MapsApiClient.KeiExterne.Nuget.Package.csproj", "{27AA1C37-92F1-4D00-88C3-E5C98B75F50C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fietsenwinkel.MapsApiAdapter", "Fietsenwinkel.MapsApiAdapter\Fietsenwinkel.MapsApiAdapter.csproj", "{96FBB3EE-4352-4F5A-815D-3C8D99EE6591}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fietsenwinkel.MapsApiAdapter", "Fietsenwinkel.MapsApiAdapter\Fietsenwinkel.MapsApiAdapter.csproj", "{96FBB3EE-4352-4F5A-815D-3C8D99EE6591}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fietsenwinkel.UseCases.Admin", "Fietsenwinkel.UseCases.Admin\Fietsenwinkel.UseCases.Admin.csproj", "{A3FCA628-570C-47DF-8149-9EB1E288B8A0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,6 +59,10 @@ Global
 		{96FBB3EE-4352-4F5A-815D-3C8D99EE6591}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{96FBB3EE-4352-4F5A-815D-3C8D99EE6591}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{96FBB3EE-4352-4F5A-815D-3C8D99EE6591}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A3FCA628-570C-47DF-8149-9EB1E288B8A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3FCA628-570C-47DF-8149-9EB1E288B8A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A3FCA628-570C-47DF-8149-9EB1E288B8A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A3FCA628-570C-47DF-8149-9EB1E288B8A0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

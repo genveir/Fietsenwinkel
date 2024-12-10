@@ -6,7 +6,7 @@ using Fietsenwinkel.Domain.Shopping.Entities;
 using Fietsenwinkel.Shared.Results;
 using System.Threading.Tasks;
 
-namespace Fietsenwinkel.UseCases.Voorraden.Management;
+namespace Fietsenwinkel.UseCases.Admin.Voorraden;
 
 public record FietsUpdateModel(FiliaalId Filiaal, FietsId FietsId, FietsType Type, AantalWielen AantalWielen, FrameMaat FrameMaat, Money Price);
 

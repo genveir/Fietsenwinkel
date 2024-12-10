@@ -4,10 +4,10 @@ using Fietsenwinkel.Domain.Fietsen.Plugins;
 using Fietsenwinkel.Domain.Filialen.Entities;
 using Fietsenwinkel.Domain.Shopping.Entities;
 using Fietsenwinkel.Shared.Results;
-using Fietsenwinkel.UseCases.Voorraden.Management.Plugins;
+using Fietsenwinkel.UseCases.Admin.Voorraden.Plugins;
 using System.Threading.Tasks;
 
-namespace Fietsenwinkel.UseCases.Voorraden.Management;
+namespace Fietsenwinkel.UseCases.Admin.Voorraden;
 
 public record FietsCreateModel(FiliaalId Filiaal, FietsType Type, AantalWielen AantalWielen, FrameMaat FrameMaat, Money Price);
 
